@@ -1,8 +1,14 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-class Tower {
-private:
+#include "Sprite.h"
+
+class Tower : public Sprite {
+protected:
+	int attack_damage;
+	int range;
 public:
-	Tower();
+	Tower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, int attack_damage, int range);
+
+	void draw(sf::RenderWindow& window);
 };

@@ -1,11 +1,10 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-class Tile {
+#include "Sprite.h"
+
+class Tile : public Sprite {
 private:
-	sf::Texture* texture;
-	sf::IntRect* crop;
-	sf::Sprite sprite;
 public:
 	Tile(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position);
 
