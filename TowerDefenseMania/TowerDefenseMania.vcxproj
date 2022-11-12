@@ -139,7 +139,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Enemy.cpp" />
+    <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Tower.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="headers\Enemy.h" />
+    <ClInclude Include="headers\Game.h" />
+    <ClInclude Include="headers\Tower.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\sprites\EnemySpriteSheet.png" />
+    <Image Include="assets\sprites\EnvironmentSpriteSheet.png" />
+    <Image Include="assets\sprites\TowerSpriteSheet.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
