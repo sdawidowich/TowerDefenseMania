@@ -25,6 +25,8 @@ int main() {
 		//render
 		window.clear();
 
+		game.draw_environment(window);
+
 		window.display();
 	}
 
