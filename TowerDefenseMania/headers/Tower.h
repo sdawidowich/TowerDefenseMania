@@ -10,5 +10,6 @@ protected:
 public:
 	Tower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, int attack_damage, int range);
 
-	void draw(sf::RenderWindow& window);
+	virtual void attack() = 0;
+	void set_position(sf::Vector2f position);
 };

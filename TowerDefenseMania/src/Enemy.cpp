@@ -5,3 +5,7 @@ Enemy::Enemy(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, flo
 	this->health = health;
 	this->dir = dir;
 }
+
+void Enemy::move() {
+	this->sprite.move(this->dir.x * this->speed, this->dir.y * this->speed);
+}

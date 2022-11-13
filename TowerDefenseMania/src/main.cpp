@@ -18,6 +18,8 @@ int main() {
 				window.close();
 			}
 
+			game.update_gui(window, event);
+
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 				window.close();
 			}
@@ -26,6 +28,7 @@ int main() {
 		window.clear();
 
 		game.draw_environment(window);
+		game.draw_gui(window);
 
 		window.display();
 	}

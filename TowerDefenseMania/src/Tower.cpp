@@ -5,6 +5,6 @@ Tower::Tower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, int
 	this->range = range;
 }
 
-void Tower::draw(sf::RenderWindow& window) {
-	window.draw(this->sprite);
+void Tower::set_position(sf::Vector2f position) {
+	this->sprite.setPosition(position);
 }
