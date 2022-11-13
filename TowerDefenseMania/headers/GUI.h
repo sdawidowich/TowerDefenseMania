@@ -16,7 +16,7 @@ public:
 	GUI(sf::Texture* gui_sprite_sheet, sf::Texture* tower_sprite_sheet);
 
 	void update_selection(sf::RenderWindow& window, sf::Event& event);
-	void move_selection();
+	void move_selection(sf::RenderWindow& window);
 
 	void draw_buttons(sf::RenderWindow& window);
 	void draw_selection(sf::RenderWindow& window);

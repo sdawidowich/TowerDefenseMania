@@ -21,14 +21,21 @@ void GUI::update_selection(sf::RenderWindow& window, sf::Event& event) {
 					sf::IntRect* crop = new sf::IntRect(0, 0, 32, 32);
 					this->selection = new ArcherTower(tower_sprite_sheet, crop, mouse_pos);
 				}
+				else {
+					delete this->selection;
+					this->selection = nullptr;
+				}
+			}
+			else if (this->selection) {
+				
 			}
 		}
 	}
 }
 
-void GUI::move_selection() {
+void GUI::move_selection(sf::RenderWindow& window) {
 	if (this->selection) {
-		sf::Vector2i mouse_pos = sf::Mouse::getPosition();
+		sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
 		this->selection->set_position(sf::Vector2f(mouse_pos));
 	}
 }

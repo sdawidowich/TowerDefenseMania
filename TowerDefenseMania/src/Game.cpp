@@ -33,7 +33,7 @@ Game::~Game() {
 
 void Game::update_gui(sf::RenderWindow& window, sf::Event& event) {
 	this->gui->update_selection(window, event);
-	this->gui->move_selection();
+	this->gui->move_selection(window);
 }
 
 void Game::draw_environment(sf::RenderWindow& window) {

@@ -16,6 +16,8 @@ private:
 	sf::Texture* environment_sprite_sheet;
 	sf::Texture* gui_sprite_sheet;
 
+	sf::Font* font;
+
 	Environment* environment;
 	GUI* gui;
 

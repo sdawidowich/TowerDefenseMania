@@ -44,7 +44,7 @@ Environment::Environment(sf::Texture* sprite_sheet) {
 
 	for (int i = 0; i < this->tile_map.size(); i++) {
 		for (int j = 0; j < this->tile_map[i].size(); j++) {
-			sf::Vector2f position(j * 32.f, i * 32.f);
+			sf::Vector2f position(j * 32.f + 16.f, i * 32.f + 16.f);
 			tiles.push_back(Tile(this->sprite_sheet, this->tile_index[this->tile_map[i][j]], position));
 		}
 	}
