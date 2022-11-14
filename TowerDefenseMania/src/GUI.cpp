@@ -13,22 +13,17 @@ GUI::GUI(sf::Texture* gui_sprite_sheet, sf::Texture* tower_sprite_sheet) {
 }
 
 void GUI::update_selection(sf::RenderWindow& window, sf::Event& event) {
-	if (event.type == sf::Event::MouseButtonReleased) {
-		for (int i = 0; i < this->buttons.size(); i++) {
-			sf::Vector2f mouse_pos = sf::Vector2f(sf::Mouse::getPosition(window));
-			if (buttons[i].get_sprite_bounds().intersects(sf::FloatRect(mouse_pos, sf::Vector2f(1, 1)))) {
-				if (!this->selection) {
-					sf::IntRect* crop = new sf::IntRect(0, 0, 32, 32);
-					this->selection = new ArcherTower(tower_sprite_sheet, crop, mouse_pos);
-				}
-				else {
-					delete this->selection;
-					this->selection = nullptr;
-				}
-			}
-			else if (this->selection) {
-				
-			}
+	for (int i = 0; i < this->buttons.size(); i++) {
+		sf::Vector2f mouse_pos = sf::Vector2f(sf::Mouse::getPosition(window));
+
+		buttons[i].update(event, mouse_pos);
+		if (!this->selection && buttons[i].get_state() == BTN_PRESSED) {
+			sf::IntRect* crop = new sf::IntRect(0, 0, 32, 32);
+			this->selection = new ArcherTower(tower_sprite_sheet, crop, mouse_pos);
+		}
+		else if (this->selection && buttons[i].get_state() == BTN_PRESSED) {
+			delete this->selection;
+			this->selection = nullptr;
 		}
 	}
 }

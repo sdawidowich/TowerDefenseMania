@@ -22,6 +22,7 @@ private:
 	GUI* gui;
 
 	int level;
+	int gold;
 
 	std::vector<Tower> towers;
 	std::vector<Enemy> enemies;
