@@ -8,3 +8,11 @@ public:
 
 	void attack() override;
 };
+
+class WizardTower : public Tower {
+private:
+public:
+	WizardTower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position);
+
+	void attack() override;
+};

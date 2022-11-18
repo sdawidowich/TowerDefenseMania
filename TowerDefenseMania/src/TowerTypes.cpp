@@ -6,3 +6,10 @@ ArcherTower::ArcherTower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f p
 
 void ArcherTower::attack() {
 }
+
+WizardTower::WizardTower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position) : Tower(texture, crop, position, 5, 10) {
+
+}
+
+void WizardTower::attack() {
+}

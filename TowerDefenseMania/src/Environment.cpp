@@ -2,19 +2,9 @@
 
 #include <iostream>
 
-Environment::Environment(sf::Texture* sprite_sheet) {
+Environment::Environment(sf::Texture* sprite_sheet, std::map<int, sf::IntRect*>* environment_sprites_indices) {
 	this->sprite_sheet = sprite_sheet;
-
-	int num_x = this->sprite_sheet->getSize().x / 32;
-	int num_y = this->sprite_sheet->getSize().y / 32;
-	for (int i = 0; i < num_y; i++) {
-		for (int j = 0; j < num_x; j++) {
-			int index = (i * num_x) + j;
-			int x_coord = j * 32;
-			int y_coord = i * 32;
-			this->tile_index[index] = new sf::IntRect(x_coord, y_coord, 32, 32);
-		}
-	}
+	this->environment_sprites_indices = environment_sprites_indices;
 
 	this->tile_map = {
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -45,16 +35,9 @@ Environment::Environment(sf::Texture* sprite_sheet) {
 	for (int i = 0; i < this->tile_map.size(); i++) {
 		for (int j = 0; j < this->tile_map[i].size(); j++) {
 			sf::Vector2f position(j * 32.f + 16.f, i * 32.f + 16.f);
-			tiles.push_back(Tile(this->sprite_sheet, this->tile_index[this->tile_map[i][j]], position));
+			tiles.push_back(Tile(this->sprite_sheet, (*this->environment_sprites_indices)[this->tile_map[i][j]], position));
 		}
 	}
-}
-
-Environment::~Environment() {
-	for (int i = 0; i < this->tile_index.size(); i++) {
-		delete tile_index[i];
-	}
-	this->tile_index.clear();
 }
 
 void Environment::draw(sf::RenderWindow& window) {

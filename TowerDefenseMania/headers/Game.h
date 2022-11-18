@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <map>
 
 #include "Environment.h"
 #include "GUI.h"
@@ -16,6 +17,11 @@ private:
 	sf::Texture* environment_sprite_sheet;
 	sf::Texture* gui_sprite_sheet;
 
+	std::map<int, sf::IntRect*> tower_sprites_indices;
+	std::map<int, sf::IntRect*> enemy_sprites_indices;
+	std::map<int, sf::IntRect*> environment_sprites_indices;
+	std::map<int, sf::IntRect*> gui_sprites_indices;
+
 	sf::Font* font;
 
 	Environment* environment;
@@ -29,6 +35,9 @@ private:
 public:
 	Game();
 	~Game();
+
+	void set_sprite_indices(sf::Texture* sprite_sheet, std::map<int, sf::IntRect*>& sprites_indices);
+	void delete_sprite_indices(std::map<int, sf::IntRect*>& sprites_indices);
 
 	void update_gui(sf::RenderWindow& window, sf::Event& event);
 

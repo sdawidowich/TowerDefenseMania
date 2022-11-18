@@ -29,6 +29,8 @@ int main() {
 
 		game.draw_environment(window);
 		game.draw_gui(window);
+		game.draw_towers(window);
+		game.draw_enemies(window);
 
 		window.display();
 	}
