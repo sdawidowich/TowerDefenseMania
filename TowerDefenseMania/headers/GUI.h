@@ -22,6 +22,7 @@ public:
 
 	template<typename T>
 	void select_tower(Button& button, sf::Vector2f& mouse_pos, int tower_sprite_index);
+	void reset_selection();
 	void update_selection(sf::RenderWindow& window, sf::Event& event);
 
 	void draw_text(sf::RenderWindow& window, int level, int gold, int health);

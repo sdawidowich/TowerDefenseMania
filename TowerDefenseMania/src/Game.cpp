@@ -82,10 +82,12 @@ void Game::place_tower(sf::RenderWindow& window, sf::Event& event) {
 	Tower* new_tower = this->gui->get_new_tower();
 
 	if (new_tower) {
-		// Reset highlights then highlight selected tiles
+		// Reset highlights
 		for (int i = 0; i < num_tiles; i++) {
 			tiles[i]->set_highlight(false);
 		}
+
+		sf::Vector2f new_posiiton;
 		int x_quadrant = -1;
 		int y_quadrant = -1;
 		for (int i = 0; i < num_tiles; i++) {
@@ -116,12 +118,22 @@ void Game::place_tower(sf::RenderWindow& window, sf::Event& event) {
 				tiles[i + x_quadrant]->set_highlight(true);
 				tiles[i + y_quadrant * env_dimensions.x]->set_highlight(true);
 				tiles[i + x_quadrant + y_quadrant * env_dimensions.x]->set_highlight(true);
+
+				sf::FloatRect tile_bounds = tiles[i]->get_sprite_bounds();
+				new_posiiton = sf::Vector2f(tile_pos.x + x_quadrant * 0.5 * tile_bounds.width, tile_pos.y + y_quadrant * 0.5 * tile_bounds.height);
 				break;
 			}
 		}
 
 		if (event.type == sf::Event::MouseButtonReleased) {
+			this->gui->get_new_tower()->set_position(new_posiiton);
 			this->towers.push_back(this->gui->get_new_tower());
+			this->gui->reset_selection();
+
+			// Reset highlights
+			for (int i = 0; i < num_tiles; i++) {
+				tiles[i]->set_highlight(false);
+			}
 		}
 	}
 	

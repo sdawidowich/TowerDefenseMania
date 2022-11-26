@@ -41,6 +41,14 @@ void GUI::select_tower(Button& button, sf::Vector2f& mouse_pos, int tower_sprite
 	}
 }
 
+void GUI::reset_selection() {
+	this->new_tower = nullptr;
+
+	for (int i = 0; i < this->buttons.size(); i++) {
+		this->buttons[i].deselect();
+	}
+}
+
 void GUI::update_selection(sf::RenderWindow& window, sf::Event& event) {
 	for (int i = 0; i < this->buttons.size(); i++) {
 		sf::Vector2f mouse_pos = sf::Vector2f(sf::Mouse::getPosition(window));
