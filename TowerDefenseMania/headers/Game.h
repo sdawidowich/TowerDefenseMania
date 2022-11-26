@@ -12,6 +12,7 @@
 
 class Game {
 private:
+	sf::Font* font;
 	sf::Texture* tower_sprite_sheet;
 	sf::Texture* enemy_sprite_sheet;
 	sf::Texture* environment_sprite_sheet;
@@ -22,16 +23,15 @@ private:
 	std::map<int, sf::IntRect*> environment_sprites_indices;
 	std::map<int, sf::IntRect*> gui_sprites_indices;
 
-	sf::Font* font;
-
+	std::vector<Tower*> towers;
+	std::vector<Enemy> enemies;
 	Environment* environment;
 	GUI* gui;
 
 	int level;
 	int gold;
-
-	std::vector<Tower> towers;
-	std::vector<Enemy> enemies;
+	int max_health;
+	int health;
 public:
 	Game();
 	~Game();
@@ -40,6 +40,7 @@ public:
 	void delete_sprite_indices(std::map<int, sf::IntRect*>& sprites_indices);
 
 	void update_gui(sf::RenderWindow& window, sf::Event& event);
+	void place_tower(sf::RenderWindow& window, sf::Event& event);
 
 	void draw_environment(sf::RenderWindow& window);
 	void draw_gui(sf::RenderWindow& window);

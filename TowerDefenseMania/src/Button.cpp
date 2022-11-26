@@ -4,6 +4,7 @@
 
 Button::Button(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, std::string label, sf::IntRect* hover_crop, sf::IntRect* selected_crop) : Sprite(texture, crop, position) {
 	this->btn_state = Button_State::BTN_IDLE;
+	this->selected = false;
 	this->label = label;
 	this->hover_crop = hover_crop;
 	this->selected_crop = selected_crop;
@@ -12,16 +13,13 @@ Button::Button(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, s
 }
 
 void Button::update(sf::Event& event, sf::Vector2f mouse_pos) {
-	if (this->btn_state != Button_State::BTN_SELECTED) {
-		this->btn_state = Button_State::BTN_IDLE;
-		this->check_hover(mouse_pos);
-	}
-	else {
+	this->btn_state = Button_State::BTN_IDLE;
+	this->check_hover(mouse_pos);
+	this->check_click(event, mouse_pos);
+
+	if (this->selected) {
 		this->update_sprite(this->selected_crop);
 	}
-
-	this->check_click(event, mouse_pos);
-	
 }
 
 void Button::check_hover(sf::Vector2f mouse_pos) {
@@ -54,10 +52,14 @@ std::string Button::get_label() {
 	return this->label;
 }
 
-void Button::set_selected() {
-	this->btn_state = Button_State::BTN_SELECTED;
+void Button::select() {
+	this->selected = true;
 }
 
-void Button::set_unselected() {
-	this->btn_state = Button_State::BTN_IDLE;
+void Button::deselect() {
+	this->selected = false;
+}
+
+bool Button::get_selected() {
+	return this->selected;
 }

@@ -10,5 +10,9 @@ public:
 	Sprite(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position);
 	
 	sf::FloatRect get_sprite_bounds();
+	sf::Vector2f get_position();
+
+	void set_position(sf::Vector2f position);
+
 	void draw(sf::RenderWindow& window);
 };

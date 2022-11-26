@@ -92,4 +92,7 @@
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\fonts\upheavtt.ttf" />
+  </ItemGroup>
 </Project>

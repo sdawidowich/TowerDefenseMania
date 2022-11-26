@@ -4,12 +4,14 @@
 #include <string>
 
 enum class Button_State {
-	BTN_IDLE, BTN_HOVER, BTN_CLICKED, BTN_SELECTED
+	BTN_IDLE, BTN_HOVER, BTN_CLICKED
 };
 
 class Button : public Sprite {
 private:
 	Button_State btn_state;
+	bool selected;
+
 	std::string label;
 	sf::IntRect* hover_crop;
 	sf::IntRect* selected_crop;
@@ -25,6 +27,7 @@ public:
 	Button_State get_state();
 	std::string get_label();
 
-	void set_selected();
-	void set_unselected();
+	void select();
+	void deselect();
+	bool get_selected();
 };

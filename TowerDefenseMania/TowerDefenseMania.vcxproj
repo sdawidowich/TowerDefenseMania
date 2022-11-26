@@ -168,6 +168,9 @@
     <Image Include="assets\sprites\EnvironmentSpriteSheet.png" />
     <Image Include="assets\sprites\TowerSpriteSheet.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\fonts\upheavtt.ttf" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

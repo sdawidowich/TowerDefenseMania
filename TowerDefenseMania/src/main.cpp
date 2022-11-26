@@ -19,6 +19,7 @@ int main() {
 			}
 
 			game.update_gui(window, event);
+			game.place_tower(window, event);
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 				window.close();

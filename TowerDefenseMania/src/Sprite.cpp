@@ -9,9 +9,16 @@ Sprite::Sprite(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position) {
 	this->sprite.setOrigin(sf::Vector2f(this->sprite.getGlobalBounds().width / 2.0, this->sprite.getGlobalBounds().height / 2.0));
 }
 
-sf::FloatRect Sprite::get_sprite_bounds()
-{
+sf::FloatRect Sprite::get_sprite_bounds() {
 	return this->sprite.getGlobalBounds();
+}
+
+sf::Vector2f Sprite::get_position() {
+	return this->sprite.getPosition();
+}
+
+void Sprite::set_position(sf::Vector2f position) {
+	this->sprite.setPosition(position);
 }
 
 void Sprite::draw(sf::RenderWindow& window) {

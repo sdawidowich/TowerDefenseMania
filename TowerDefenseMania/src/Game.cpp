@@ -4,13 +4,16 @@
 #include <string>
 
 Game::Game() {
+	const std::string FONT_PATH = "assets/fonts/";
 	const std::string SPRITES_PATH = "assets/sprites/";
-
+	
+	this->font = new sf::Font();
 	this->tower_sprite_sheet = new sf::Texture();
 	this->enemy_sprite_sheet = new sf::Texture();
 	this->environment_sprite_sheet = new sf::Texture();
 	this->gui_sprite_sheet = new sf::Texture();
 
+	this->font->loadFromFile(FONT_PATH + "upheavtt.ttf");
 	this->tower_sprite_sheet->loadFromFile(SPRITES_PATH + "TowerSpriteSheet.png");
 	this->enemy_sprite_sheet->loadFromFile(SPRITES_PATH + "EnemySpriteSheet.png");
 	this->environment_sprite_sheet->loadFromFile(SPRITES_PATH + "EnvironmentSpriteSheet.png");
@@ -22,9 +25,12 @@ Game::Game() {
 	this->set_sprite_indices(this->gui_sprite_sheet, this->gui_sprites_indices);
 
 	this->environment = new Environment(this->environment_sprite_sheet, &this->environment_sprites_indices);
-	this->gui = new GUI(this->gui_sprite_sheet, &this->gui_sprites_indices, this->tower_sprite_sheet, &this->tower_sprites_indices);
+	this->gui = new GUI(this->font, this->gui_sprite_sheet, &this->gui_sprites_indices, this->tower_sprite_sheet, &this->tower_sprites_indices);
 
 	this->level = 1;
+	this->gold = 100;
+	this->max_health = 1000;
+	this->health = 1000;
 }
 
 Game::~Game() {
@@ -65,7 +71,46 @@ void Game::delete_sprite_indices(std::map<int, sf::IntRect*>& sprites_indices) {
 
 void Game::update_gui(sf::RenderWindow& window, sf::Event& event) {
 	this->gui->update_selection(window, event);
-	this->gui->move_selection(window);
+}
+
+void Game::place_tower(sf::RenderWindow& window, sf::Event& event) {
+	sf::Vector2f mouse_pos = sf::Vector2f(sf::Mouse::getPosition(window));
+
+	int num_tiles = this->environment->get_num_tiles();
+	sf::Vector2i env_dimensions = this->environment->get_dimensions();
+	Tile** tiles = this->environment->get_tiles();
+	Tower* new_tower = this->gui->get_new_tower();
+
+	if (new_tower) {
+		// Reset highlights then highlight selected tiles
+		for (int i = 0; i < num_tiles; i++) {
+			tiles[i]->set_highlight(false);
+		}
+		int x_quadrant = -1;
+		int y_quadrant = -1;
+		for (int i = 0; i < num_tiles; i++) {
+			if (tiles[i]->get_sprite_bounds().contains(mouse_pos)) {
+				tiles[i]->set_highlight(true);
+
+				sf::Vector2f tile_pos = tiles[i]->get_position();
+				if (mouse_pos.x > tile_pos.x) {
+					x_quadrant = 1;
+				}
+				if (mouse_pos.y > tile_pos.y) {
+					y_quadrant = 1;
+				}
+				tiles[i + x_quadrant]->set_highlight(true);
+				tiles[i + y_quadrant * env_dimensions.x]->set_highlight(true);
+				tiles[i + x_quadrant + y_quadrant * env_dimensions.x]->set_highlight(true);
+				break;
+			}
+		}
+
+		if (event.type == sf::Event::MouseButtonReleased) {
+			this->towers.push_back(this->gui->get_new_tower());
+		}
+	}
+	
 }
 
 void Game::draw_environment(sf::RenderWindow& window) {
@@ -75,11 +120,12 @@ void Game::draw_environment(sf::RenderWindow& window) {
 void Game::draw_gui(sf::RenderWindow& window) {
 	this->gui->draw_buttons(window);
 	this->gui->draw_selection(window);
+	this->gui->draw_text(window, this->level, this->gold, this->level);
 }
 
 void Game::draw_towers(sf::RenderWindow& window) {
 	for (int i = 0; i < this->towers.size(); i++) {
-		this->towers[i].draw(window);
+		this->towers[i]->draw(window);
 	}
 }
 
