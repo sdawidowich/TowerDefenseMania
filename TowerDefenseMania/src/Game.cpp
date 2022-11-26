@@ -99,6 +99,20 @@ void Game::place_tower(sf::RenderWindow& window, sf::Event& event) {
 				if (mouse_pos.y > tile_pos.y) {
 					y_quadrant = 1;
 				}
+
+				if ((i % env_dimensions.x) >= (env_dimensions.x - 1)) {
+					x_quadrant = -1;
+				}
+				else if ((i % env_dimensions.x) <= 0) {
+					x_quadrant = 1;
+				}
+				if ((i / env_dimensions.x) >= (env_dimensions.y - 1)) {
+					y_quadrant = -1;
+				}
+				else if ((i / env_dimensions.x) <= 0) {
+					y_quadrant = 1;
+				}
+
 				tiles[i + x_quadrant]->set_highlight(true);
 				tiles[i + y_quadrant * env_dimensions.x]->set_highlight(true);
 				tiles[i + x_quadrant + y_quadrant * env_dimensions.x]->set_highlight(true);
