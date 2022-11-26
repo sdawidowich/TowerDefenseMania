@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <map>
+#include <random>
 
 #include "Environment.h"
 #include "GUI.h"
@@ -12,6 +13,10 @@
 
 class Game {
 private:
+	std::random_device rd;
+	std::mt19937 gen;
+	std::uniform_real_distribution<double> distr;
+
 	sf::Font* font;
 	sf::Texture* tower_sprite_sheet;
 	sf::Texture* enemy_sprite_sheet;
@@ -32,6 +37,10 @@ private:
 	int gold;
 	int max_health;
 	int health;
+
+	sf::Clock timer;
+	sf::Time generate_delay;
+	int num_generated_enemies;
 public:
 	Game();
 	~Game();
@@ -41,6 +50,14 @@ public:
 
 	void update_gui(sf::RenderWindow& window, sf::Event& event);
 	void place_tower(sf::RenderWindow& window, sf::Event& event);
+
+	void towers_attack();
+
+	void check_enemies();
+	void generate_enemies();
+	void move_enemies();
+
+	void advance_lvl();
 
 	void draw_environment(sf::RenderWindow& window);
 	void draw_gui(sf::RenderWindow& window);

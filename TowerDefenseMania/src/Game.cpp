@@ -4,6 +4,9 @@
 #include <string>
 
 Game::Game() {
+	this->gen = std::mt19937(this->rd());
+	this->distr = std::uniform_real_distribution<double>(0.2, 1);
+
 	const std::string FONT_PATH = "assets/fonts/";
 	const std::string SPRITES_PATH = "assets/sprites/";
 	
@@ -31,6 +34,10 @@ Game::Game() {
 	this->gold = 100;
 	this->max_health = 1000;
 	this->health = 1000;
+
+	this->timer.restart();
+	this->generate_delay = sf::Time(sf::seconds(this->distr(this->gen)));
+	this->num_generated_enemies = 0;
 }
 
 Game::~Game() {
@@ -139,6 +146,32 @@ void Game::place_tower(sf::RenderWindow& window, sf::Event& event) {
 	
 }
 
+void Game::towers_attack() {
+
+}
+
+void Game::check_enemies() {
+
+}
+
+void Game::generate_enemies() {
+	int lvl_num_enemies = this->level * 3;
+	if (this->num_generated_enemies < lvl_num_enemies) {
+		if (this->timer.getElapsedTime() >= this->generate_delay) {
+			timer.restart();
+			this->generate_delay = sf::Time(sf::seconds(this->distr(this->gen)));
+			this->enemies.push_back(Zombie(this->enemy_sprite_sheet, this->enemy_sprites_indices[0], sf::Vector2f(0.f, 200.f), sf::Vector2i(1, 0)));
+			this->num_generated_enemies++;
+		}
+	}
+}
+
+void Game::move_enemies() {
+	for (int i = 0; i < this->enemies.size(); i++) {
+		enemies[i].move();
+	}
+}
+
 void Game::draw_environment(sf::RenderWindow& window) {
 	this->environment->draw(window);
 }
@@ -147,6 +180,13 @@ void Game::draw_gui(sf::RenderWindow& window) {
 	this->gui->draw_buttons(window);
 	this->gui->draw_selection(window);
 	this->gui->draw_text(window, this->level, this->gold, this->level);
+}
+
+void Game::advance_lvl() {
+	int lvl_num_enemies = this->level * 3;
+	if (!this->enemies.size() && this->num_generated_enemies >= lvl_num_enemies) {
+		this->level++;
+	}
 }
 
 void Game::draw_towers(sf::RenderWindow& window) {

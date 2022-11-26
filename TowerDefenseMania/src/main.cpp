@@ -28,6 +28,14 @@ int main() {
 		//render
 		window.clear();
 
+		game.towers_attack();
+
+		game.check_enemies();
+		game.move_enemies();
+		game.generate_enemies();
+
+		game.advance_lvl();
+
 		game.draw_environment(window);
 		game.draw_gui(window);
 		game.draw_towers(window);
@@ -35,7 +43,6 @@ int main() {
 
 		window.display();
 	}
-
 
 	return 0;
 }

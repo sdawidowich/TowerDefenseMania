@@ -4,5 +4,5 @@
 class Zombie : public Enemy {
 private:
 public:
-	Zombie();
+	Zombie(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, sf::Vector2i dir);
 };
