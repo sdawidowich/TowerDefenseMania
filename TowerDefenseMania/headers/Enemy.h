@@ -12,6 +12,9 @@ protected:
 public:
 	Enemy(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, float speed, int health, int damage, sf::Vector2i dir);
 
+	int get_health();
+
 	void move();
 	void change_dir(sf::Vector2i dir);
+	void take_damage(int damage);
 };

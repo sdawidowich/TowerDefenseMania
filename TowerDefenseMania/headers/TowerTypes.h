@@ -6,7 +6,7 @@ private:
 public:
 	ArcherTower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position);
 
-	void attack() override;
+	void attack(std::vector<Enemy>& enemies) override;
 };
 
 class WizardTower : public Tower {
@@ -14,5 +14,5 @@ private:
 public:
 	WizardTower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position);
 
-	void attack() override;
+	void attack(std::vector<Enemy>& enemies) override;
 };

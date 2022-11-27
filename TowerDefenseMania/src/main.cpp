@@ -30,7 +30,6 @@ int main() {
 
 		game.towers_attack();
 
-		game.check_enemies();
 		game.move_enemies();
 		game.generate_enemies();
 

@@ -147,11 +147,19 @@ void Game::place_tower(sf::RenderWindow& window, sf::Event& event) {
 }
 
 void Game::towers_attack() {
-
+	for (int i = 0; i < this->towers.size(); i++) {
+		this->towers[i]->attack(this->enemies);
+	}
+	this->check_enemies();
 }
 
 void Game::check_enemies() {
-
+	for (int i = 0; i < this->enemies.size(); i++) {
+		if (enemies[i].get_health() <= 0) {
+			enemies.erase(enemies.begin() + i);
+			i--;
+		}
+	}
 }
 
 void Game::generate_enemies() {

@@ -8,10 +8,18 @@ Enemy::Enemy(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, flo
 	this->dir = dir;
 }
 
+int Enemy::get_health() {
+	return this->health;
+}
+
 void Enemy::move() {
 	this->sprite.move(this->dir.x * this->speed, this->dir.y * this->speed);
 }
 
 void Enemy::change_dir(sf::Vector2i dir) {
 	this->dir = dir;
+}
+
+void Enemy::take_damage(int damage) {
+	this->health -= damage;
 }
