@@ -6,7 +6,7 @@ Environment::Environment(sf::Texture* sprite_sheet, std::map<int, sf::IntRect*>*
 	this->sprite_sheet = sprite_sheet;
 	this->environment_sprites_indices = environment_sprites_indices;
 
-	this->tile_map = {
+	this->id_map = {
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0},
@@ -25,21 +25,17 @@ Environment::Environment(sf::Texture* sprite_sheet, std::map<int, sf::IntRect*>*
 		{0, 0, 4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		{0, 0, 4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		{0, 0, 4, 4, 4, 4, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 	};
 
-	this->num_tiles = this->tile_map.size() * this->tile_map[0].size();
+	this->num_tiles = this->id_map.size() * this->id_map[0].size();
 	this->tiles = new Tile * [this->num_tiles];
 
-	for (int i = 0; i < this->tile_map.size(); i++) {
-		for (int j = 0; j < this->tile_map[i].size(); j++) {
+	for (int i = 0; i < this->id_map.size(); i++) {
+		for (int j = 0; j < this->id_map[i].size(); j++) {
 			sf::Vector2f position(j * 32.f + 16.f, i * 32.f + 16.f);
-			int index = (i * this->tile_map[i].size()) + j;
-			tiles[index] = new Tile(this->sprite_sheet, (*this->environment_sprites_indices)[this->tile_map[i][j]], position);
+			int index = (i * this->id_map[i].size()) + j;
+			tiles[index] = new Tile(this->sprite_sheet, (*this->environment_sprites_indices)[this->id_map[i][j]], position);
 		}
 	}
 }
@@ -53,7 +49,7 @@ int Environment::get_num_tiles() {
 }
 
 sf::Vector2i Environment::get_dimensions() {
-	return sf::Vector2i(this->tile_map[0].size(), this->tile_map.size());
+	return sf::Vector2i(this->id_map[0].size(), this->id_map.size());
 }
 
 Tile** Environment::get_tiles() {
@@ -62,6 +58,6 @@ Tile** Environment::get_tiles() {
 
 void Environment::draw(sf::RenderWindow& window) {
 	for (int i = 0; i < this->num_tiles; i++) {
-		tiles[i]->draw(window);
+		this->tiles[i]->draw(window);
 	}
 }

@@ -9,7 +9,7 @@ class Environment {
 private:
 	sf::Texture* sprite_sheet;
 	std::map<int, sf::IntRect*>* environment_sprites_indices;
-	std::vector< std::vector<int> > tile_map;
+	std::vector< std::vector<int> > id_map;
 	int num_tiles;
 	Tile** tiles;
 public:

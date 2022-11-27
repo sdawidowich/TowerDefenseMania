@@ -3,7 +3,7 @@
 #include <vector>
 #include <map>
 
-#include "Sprite.h"
+#include "Tile.h"
 #include "Tower.h"
 #include "Button.h"
 
@@ -14,6 +14,11 @@ private:
 	sf::Texture* tower_sprite_sheet;
 	std::map<int, sf::IntRect*>* gui_sprites_indices;
 	std::map<int, sf::IntRect*>* tower_sprites_indices;
+
+	std::vector< std::vector<int> > id_map;
+	std::vector< std::vector<int> > rotation_map;
+	int num_tiles;
+	Tile** tiles;
 
 	std::vector<Button> buttons;
 	Tower* new_tower;
@@ -26,6 +31,7 @@ public:
 	void update_selection(sf::RenderWindow& window, sf::Event& event);
 
 	void draw_text(sf::RenderWindow& window, int level, int gold, int health);
+	void draw_background(sf::RenderWindow& window);
 	void draw_buttons(sf::RenderWindow& window);
 	void draw_selection(sf::RenderWindow& window);
 

@@ -21,6 +21,10 @@ void Sprite::set_position(sf::Vector2f position) {
 	this->sprite.setPosition(position);
 }
 
+void Sprite::set_rotation(float angle) {
+	this->sprite.setRotation(angle);
+}
+
 void Sprite::draw(sf::RenderWindow& window) {
 	window.draw(this->sprite);
 }

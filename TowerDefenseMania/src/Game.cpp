@@ -185,6 +185,7 @@ void Game::draw_environment(sf::RenderWindow& window) {
 }
 
 void Game::draw_gui(sf::RenderWindow& window) {
+	this->gui->draw_background(window);
 	this->gui->draw_buttons(window);
 	this->gui->draw_selection(window);
 	this->gui->draw_text(window, this->level, this->gold, this->level);

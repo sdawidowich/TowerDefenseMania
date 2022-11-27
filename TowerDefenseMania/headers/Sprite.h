@@ -13,6 +13,7 @@ public:
 	sf::Vector2f get_position();
 
 	void set_position(sf::Vector2f position);
+	void set_rotation(float angle);
 
 	void draw(sf::RenderWindow& window);
 };
