@@ -6,8 +6,12 @@
 int main() {
 	int width = 1280;
 	int height = 720;
-	sf::RenderWindow window(sf::VideoMode(width, height), "Tower Defense Mania");
+	sf::ContextSettings settings;
+	settings.antialiasingLevel = 8;
+
+	sf::RenderWindow window(sf::VideoMode(width, height), "Tower Defense Mania", sf::Style::Default, settings);
 	window.setFramerateLimit(60);
+
 
 	Game game;
 

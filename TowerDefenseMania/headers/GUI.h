@@ -17,11 +17,14 @@ private:
 
 	std::vector< std::vector<int> > id_map;
 	std::vector< std::vector<int> > rotation_map;
-	int num_tiles;
 	Tile** tiles;
+	int num_tiles;
 
 	std::vector<Button> buttons;
+
 	Tower* new_tower;
+
+	sf::CircleShape* tower_range_indicator;
 public:
 	GUI(sf::Font* font, sf::Texture* gui_sprite_sheet, std::map<int, sf::IntRect*>* gui_sprites_indices, sf::Texture* tower_sprite_sheet, std::map<int, sf::IntRect*>* tower_sprites_indices);
 
@@ -31,9 +34,13 @@ public:
 	void draw_background(sf::RenderWindow& window);
 	void draw_buttons(sf::RenderWindow& window);
 	void draw_selection(sf::RenderWindow& window);
+	void draw_tower_range_indicator(sf::RenderWindow& window);
 
-	Tower* get_new_tower();
 	std::vector<Button>* get_buttons();
+	Tower* get_new_tower();
+	sf::CircleShape* get_tower_range_indicator();
+
+	void set_tower_range_indicator(sf::CircleShape* tower_range_indicator);
 
 	template<typename T>
 	void select_tower(Button& button, sf::Vector2f& mouse_pos, int tower_sprite_index) {

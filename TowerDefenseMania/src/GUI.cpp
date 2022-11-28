@@ -12,6 +12,7 @@ GUI::GUI(sf::Font* font, sf::Texture* gui_sprite_sheet, std::map<int, sf::IntRec
 	this->tower_sprite_sheet = tower_sprite_sheet;
 	this->tower_sprites_indices = tower_sprites_indices;
 	this->new_tower = nullptr;
+	this->tower_range_indicator = nullptr;
 
 	this->id_map = {
 		{3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3},
@@ -96,10 +97,25 @@ void GUI::draw_selection(sf::RenderWindow& window) {
 	}
 }
 
-Tower* GUI::get_new_tower() {
-	return this->new_tower;
+void GUI::draw_tower_range_indicator(sf::RenderWindow& window) {
+	if (this->tower_range_indicator) {
+		window.draw(*this->tower_range_indicator);
+	}
 }
 
 std::vector<Button>* GUI::get_buttons() {
 	return &this->buttons;
 }
+
+Tower* GUI::get_new_tower() {
+	return this->new_tower;
+}
+
+sf::CircleShape* GUI::get_tower_range_indicator() {
+	return this->tower_range_indicator;
+}
+
+void GUI::set_tower_range_indicator(sf::CircleShape* tower_range_indicator) {
+	this->tower_range_indicator = tower_range_indicator;
+}
+
