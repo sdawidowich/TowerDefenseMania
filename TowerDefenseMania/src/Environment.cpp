@@ -28,13 +28,13 @@ Environment::Environment(sf::Texture* sprite_sheet, std::map<int, sf::IntRect*>*
 		{0, 0, 0, 0, 0, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 	};
 
-	this->num_tiles = this->id_map.size() * this->id_map[0].size();
+	this->num_tiles = (int)this->id_map.size() * (int)this->id_map[0].size();
 	this->tiles = new Tile * [this->num_tiles];
 
 	for (int i = 0; i < this->id_map.size(); i++) {
 		for (int j = 0; j < this->id_map[i].size(); j++) {
 			sf::Vector2f position(j * 32.f + 16.f, i * 32.f + 16.f);
-			int index = (i * this->id_map[i].size()) + j;
+			int index = (i * (int)this->id_map[i].size()) + j;
 			tiles[index] = new Tile(this->sprite_sheet, (*this->environment_sprites_indices)[this->id_map[i][j]], position);
 		}
 	}
@@ -51,7 +51,7 @@ int Environment::get_num_tiles() {
 }
 
 sf::Vector2i Environment::get_dimensions() {
-	return sf::Vector2i(this->id_map[0].size(), this->id_map.size());
+	return sf::Vector2i((int)this->id_map[0].size(), (int)this->id_map.size());
 }
 
 Tile** Environment::get_tiles() {

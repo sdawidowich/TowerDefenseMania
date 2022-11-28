@@ -16,7 +16,7 @@ private:
 	std::map<int, sf::IntRect*>* tower_sprites_indices;
 
 	std::vector< std::vector<int> > id_map;
-	std::vector< std::vector<int> > rotation_map;
+	std::vector< std::vector<float> > rotation_map;
 	Tile** tiles;
 	int num_tiles;
 
@@ -30,7 +30,8 @@ public:
 
 	void reset_selection();
 
-	void draw_text(sf::RenderWindow& window, int level, int gold, int health);
+	void draw_text(sf::RenderWindow& window, int level, int gold, int health, int max_health);
+	void draw_icons(sf::RenderWindow& window);
 	void draw_background(sf::RenderWindow& window);
 	void draw_buttons(sf::RenderWindow& window);
 	void draw_selection(sf::RenderWindow& window);

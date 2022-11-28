@@ -32,11 +32,11 @@ Game::Game() {
 
 	this->level = 1;
 	this->gold = 100;
-	this->max_health = 1000;
-	this->health = 1000;
+	this->max_health = 100;
+	this->health = 100;
 
 	this->timer.restart();
-	this->generate_delay = sf::Time(sf::seconds(this->distr(this->gen)));
+	this->generate_delay = sf::Time(sf::seconds((float)this->distr(this->gen)));
 	this->num_generated_enemies = 0;
 }
 
@@ -100,7 +100,7 @@ void Game::generate_enemies() {
 	if (this->num_generated_enemies < lvl_num_enemies) {
 		if (this->timer.getElapsedTime() >= this->generate_delay) {
 			timer.restart();
-			this->generate_delay = sf::Time(sf::seconds(this->distr(this->gen)));
+			this->generate_delay = sf::Time(sf::seconds((float)this->distr(this->gen)));
 			this->enemies.push_back(Zombie(this->enemy_sprite_sheet, this->enemy_sprites_indices[0], sf::Vector2f(0.f, 200.f), sf::Vector2i(1, 0)));
 			this->num_generated_enemies++;
 		}
@@ -127,9 +127,10 @@ void Game::draw_environment(sf::RenderWindow& window) {
 void Game::draw_gui(sf::RenderWindow& window) {
 	this->gui->draw_background(window);
 	this->gui->draw_buttons(window);
-	this->gui->draw_selection(window);
 	this->gui->draw_tower_range_indicator(window);
-	this->gui->draw_text(window, this->level, this->gold, this->level);
+	this->gui->draw_text(window, this->level, this->gold, this->health, this->max_health);
+	this->gui->draw_icons(window);
+	this->gui->draw_selection(window);
 }
 
 void Game::draw_towers(sf::RenderWindow& window) {

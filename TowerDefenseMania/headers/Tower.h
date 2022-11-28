@@ -17,7 +17,7 @@ protected:
 	sf::Clock timer;
 	sf::Time attack_cooldown;
 public:
-	Tower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, int attack_damage, int range, sf::Time attack_cooldown);
+	Tower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, int attack_damage, int range, int cost, sf::Time attack_cooldown);
 
 	int get_attack_damage();
 	int get_range();

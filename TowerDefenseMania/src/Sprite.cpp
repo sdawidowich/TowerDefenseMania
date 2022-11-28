@@ -25,6 +25,10 @@ void Sprite::set_rotation(float angle) {
 	this->sprite.setRotation(angle);
 }
 
+void Sprite::set_scale(sf::Vector2f scale) {
+	this->sprite.setScale(scale);
+}
+
 void Sprite::draw(sf::RenderWindow& window) {
 	window.draw(this->sprite);
 }

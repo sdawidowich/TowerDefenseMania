@@ -14,6 +14,7 @@ public:
 
 	void set_position(sf::Vector2f position);
 	void set_rotation(float angle);
+	void set_scale(sf::Vector2f scale);
 
 	void draw(sf::RenderWindow& window);
 };
