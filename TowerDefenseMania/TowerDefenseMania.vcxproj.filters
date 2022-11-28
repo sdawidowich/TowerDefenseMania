@@ -48,6 +48,9 @@
     <ClCompile Include="src\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\EventHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Game.h">
@@ -78,6 +81,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\Button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\EventHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

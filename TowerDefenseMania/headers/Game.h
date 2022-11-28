@@ -10,6 +10,7 @@
 #include "TowerTypes.h"
 #include "Enemy.h"
 #include "EnemyTypes.h"
+#include "EventHandler.h"
 
 class Game {
 private:
@@ -28,6 +29,7 @@ private:
 	std::map<int, sf::IntRect*> environment_sprites_indices;
 	std::map<int, sf::IntRect*> gui_sprites_indices;
 
+	EventHandler event_handler;
 	std::vector<Tower*> towers;
 	std::vector<Enemy> enemies;
 	Environment* environment;
@@ -48,8 +50,7 @@ public:
 	void set_sprite_indices(sf::Texture* sprite_sheet, std::map<int, sf::IntRect*>& sprites_indices);
 	void delete_sprite_indices(std::map<int, sf::IntRect*>& sprites_indices);
 
-	void update_gui(sf::RenderWindow& window, sf::Event& event);
-	void place_tower(sf::RenderWindow& window, sf::Event& event);
+	void check_events(sf::RenderWindow& window, sf::Event& event);
 
 	void towers_attack();
 

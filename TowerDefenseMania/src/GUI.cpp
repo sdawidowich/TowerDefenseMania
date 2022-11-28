@@ -46,31 +46,11 @@ GUI::GUI(sf::Font* font, sf::Texture* gui_sprite_sheet, std::map<int, sf::IntRec
 		}
 	}
 
-	Button archer_tower_select_button = Button(this->gui_sprite_sheet, (*this->gui_sprites_indices)[0], sf::Vector2f(602, 615), "archerTowerSelector", (*this->gui_sprites_indices)[1], (*this->gui_sprites_indices)[2]);
+	Button archer_tower_select_button = Button(this->gui_sprite_sheet, (*this->gui_sprites_indices)[0], sf::Vector2f(602, 670), "archerTowerSelector", (*this->gui_sprites_indices)[1], (*this->gui_sprites_indices)[2]);
 	this->buttons.push_back(archer_tower_select_button);
 
-	Button wizard_tower_select_button = Button(this->gui_sprite_sheet, (*this->gui_sprites_indices)[0], sf::Vector2f(698, 615), "wizardTowerSelector", (*this->gui_sprites_indices)[1], (*this->gui_sprites_indices)[2]);
+	Button wizard_tower_select_button = Button(this->gui_sprite_sheet, (*this->gui_sprites_indices)[0], sf::Vector2f(698, 670), "wizardTowerSelector", (*this->gui_sprites_indices)[1], (*this->gui_sprites_indices)[2]);
 	this->buttons.push_back(wizard_tower_select_button);
-}
-
-template<typename T>
-void GUI::select_tower(Button& button, sf::Vector2f& mouse_pos, int tower_sprite_index) {
-	delete this->new_tower;
-	this->new_tower = nullptr;
-
-	if (!button.get_selected()) {
-		this->new_tower = new T(tower_sprite_sheet, (*this->tower_sprites_indices)[tower_sprite_index], mouse_pos);
-
-		for (int i = 0; i < this->buttons.size(); i++) {
-			this->buttons[i].deselect();
-		}
-		button.select();
-	}
-	else {
-		for (int i = 0; i < this->buttons.size(); i++) {
-			this->buttons[i].deselect();
-		}
-	}
 }
 
 void GUI::reset_selection() {
@@ -78,29 +58,6 @@ void GUI::reset_selection() {
 
 	for (int i = 0; i < this->buttons.size(); i++) {
 		this->buttons[i].deselect();
-	}
-}
-
-void GUI::update_selection(sf::RenderWindow& window, sf::Event& event) {
-	for (int i = 0; i < this->buttons.size(); i++) {
-		sf::Vector2f mouse_pos = sf::Vector2f(sf::Mouse::getPosition(window));
-		this->buttons[i].update(event, mouse_pos);
-		
-		if (this->buttons[i].get_state() == Button_State::BTN_CLICKED) {
-			if (this->buttons[i].get_label() == "archerTowerSelector") {
-				this->select_tower<ArcherTower>(this->buttons[i], mouse_pos, 0);
-				return;
-			}
-			else if (this->buttons[i].get_label() == "wizardTowerSelector") {
-				this->select_tower<WizardTower>(this->buttons[i], mouse_pos, 1);
-				return;
-			}
-		}
-	}
-
-	if (this->new_tower) {
-		sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
-		this->new_tower->set_position(sf::Vector2f(mouse_pos));
 	}
 }
 
@@ -141,4 +98,8 @@ void GUI::draw_selection(sf::RenderWindow& window) {
 
 Tower* GUI::get_new_tower() {
 	return this->new_tower;
+}
+
+std::vector<Button>* GUI::get_buttons() {
+	return &this->buttons;
 }

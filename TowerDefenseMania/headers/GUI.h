@@ -25,10 +25,7 @@ private:
 public:
 	GUI(sf::Font* font, sf::Texture* gui_sprite_sheet, std::map<int, sf::IntRect*>* gui_sprites_indices, sf::Texture* tower_sprite_sheet, std::map<int, sf::IntRect*>* tower_sprites_indices);
 
-	template<typename T>
-	void select_tower(Button& button, sf::Vector2f& mouse_pos, int tower_sprite_index);
 	void reset_selection();
-	void update_selection(sf::RenderWindow& window, sf::Event& event);
 
 	void draw_text(sf::RenderWindow& window, int level, int gold, int health);
 	void draw_background(sf::RenderWindow& window);
@@ -36,4 +33,25 @@ public:
 	void draw_selection(sf::RenderWindow& window);
 
 	Tower* get_new_tower();
+	std::vector<Button>* get_buttons();
+
+	template<typename T>
+	void select_tower(Button& button, sf::Vector2f& mouse_pos, int tower_sprite_index) {
+		delete this->new_tower;
+		this->new_tower = nullptr;
+
+		if (!button.get_selected()) {
+			this->new_tower = new T(tower_sprite_sheet, (*this->tower_sprites_indices)[tower_sprite_index], mouse_pos);
+
+			for (int i = 0; i < this->buttons.size(); i++) {
+				this->buttons[i].deselect();
+			}
+			button.select();
+		}
+		else {
+			for (int i = 0; i < this->buttons.size(); i++) {
+				this->buttons[i].deselect();
+			}
+		}
+	}
 };

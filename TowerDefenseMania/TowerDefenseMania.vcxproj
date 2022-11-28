@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\EnemyTypes.cpp" />
+    <ClCompile Include="src\EventHandler.cpp" />
     <ClCompile Include="src\GUI.cpp" />
     <ClCompile Include="src\Sprite.cpp" />
     <ClCompile Include="src\Tile.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="headers\Enemy.h" />
     <ClInclude Include="headers\EnemyTypes.h" />
     <ClInclude Include="headers\Environment.h" />
+    <ClInclude Include="headers\EventHandler.h" />
     <ClInclude Include="headers\Game.h" />
     <ClInclude Include="headers\GUI.h" />
     <ClInclude Include="headers\Sprite.h" />

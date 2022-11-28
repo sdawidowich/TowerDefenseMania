@@ -11,10 +11,14 @@ Tower::Tower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, int
 	this->sprite.setScale(sf::Vector2f(2.f, 2.f));
 }
 
+int Tower::get_attack_damage() {
+	return this->attack_damage;
+}
+
 int Tower::get_range() {
 	return this->range;
 }
 
-int Tower::get_attack_damage() {
-	return this->attack_damage;
+int Tower::get_cost() { 
+	return this->cost;
 }

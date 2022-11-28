@@ -53,7 +53,6 @@ Game::~Game() {
 
 	delete this->environment;
 	delete this->gui;
-
 }
 
 void Game::set_sprite_indices(sf::Texture* sprite_sheet, std::map<int, sf::IntRect*>& sprites_indices) {
@@ -76,81 +75,15 @@ void Game::delete_sprite_indices(std::map<int, sf::IntRect*>& sprites_indices) {
 	sprites_indices.clear();
 }
 
-void Game::update_gui(sf::RenderWindow& window, sf::Event& event) {
-	this->gui->update_selection(window, event);
-}
-
-void Game::place_tower(sf::RenderWindow& window, sf::Event& event) {
-	sf::Vector2f mouse_pos = sf::Vector2f(sf::Mouse::getPosition(window));
-
-	int num_tiles = this->environment->get_num_tiles();
-	sf::Vector2i env_dimensions = this->environment->get_dimensions();
-	Tile** tiles = this->environment->get_tiles();
-	Tower* new_tower = this->gui->get_new_tower();
-
-	if (new_tower) {
-		// Reset highlights
-		for (int i = 0; i < num_tiles; i++) {
-			tiles[i]->set_highlight(false);
-		}
-
-		sf::Vector2f new_posiiton;
-		int x_quadrant = -1;
-		int y_quadrant = -1;
-		for (int i = 0; i < num_tiles; i++) {
-			if (tiles[i]->get_sprite_bounds().contains(mouse_pos)) {
-				tiles[i]->set_highlight(true);
-
-				sf::Vector2f tile_pos = tiles[i]->get_position();
-				if (mouse_pos.x > tile_pos.x) {
-					x_quadrant = 1;
-				}
-				if (mouse_pos.y > tile_pos.y) {
-					y_quadrant = 1;
-				}
-
-				if ((i % env_dimensions.x) >= (env_dimensions.x - 1)) {
-					x_quadrant = -1;
-				}
-				else if ((i % env_dimensions.x) <= 0) {
-					x_quadrant = 1;
-				}
-				if ((i / env_dimensions.x) >= (env_dimensions.y - 1)) {
-					y_quadrant = -1;
-				}
-				else if ((i / env_dimensions.x) <= 0) {
-					y_quadrant = 1;
-				}
-
-				tiles[i + x_quadrant]->set_highlight(true);
-				tiles[i + y_quadrant * env_dimensions.x]->set_highlight(true);
-				tiles[i + x_quadrant + y_quadrant * env_dimensions.x]->set_highlight(true);
-
-				sf::FloatRect tile_bounds = tiles[i]->get_sprite_bounds();
-				new_posiiton = sf::Vector2f(tile_pos.x + x_quadrant * 0.5 * tile_bounds.width, tile_pos.y + y_quadrant * 0.5 * tile_bounds.height);
-				break;
-			}
-		}
-
-		if (event.type == sf::Event::MouseButtonReleased) {
-			this->gui->get_new_tower()->set_position(new_posiiton);
-			this->towers.push_back(this->gui->get_new_tower());
-			this->gui->reset_selection();
-
-			// Reset highlights
-			for (int i = 0; i < num_tiles; i++) {
-				tiles[i]->set_highlight(false);
-			}
-		}
-	}
-	
-}
-
 void Game::towers_attack() {
 	for (int i = 0; i < this->towers.size(); i++) {
 		this->towers[i]->attack(this->enemies);
 	}
 	this->check_enemies();
+}
+
+void Game::check_events(sf::RenderWindow& window, sf::Event& event) {
+	this->event_handler.check_events(window, event, this->gui, this->environment, this->towers);
 }
 
 void Game::check_enemies() {
@@ -180,6 +113,13 @@ void Game::move_enemies() {
 	}
 }
 
+void Game::advance_lvl() {
+	int lvl_num_enemies = this->level * 3;
+	if (!this->enemies.size() && this->num_generated_enemies >= lvl_num_enemies) {
+		this->level++;
+	}
+}
+
 void Game::draw_environment(sf::RenderWindow& window) {
 	this->environment->draw(window);
 }
@@ -189,13 +129,6 @@ void Game::draw_gui(sf::RenderWindow& window) {
 	this->gui->draw_buttons(window);
 	this->gui->draw_selection(window);
 	this->gui->draw_text(window, this->level, this->gold, this->level);
-}
-
-void Game::advance_lvl() {
-	int lvl_num_enemies = this->level * 3;
-	if (!this->enemies.size() && this->num_generated_enemies >= lvl_num_enemies) {
-		this->level++;
-	}
 }
 
 void Game::draw_towers(sf::RenderWindow& window) {

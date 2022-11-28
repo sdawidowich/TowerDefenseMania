@@ -38,6 +38,8 @@ Environment::Environment(sf::Texture* sprite_sheet, std::map<int, sf::IntRect*>*
 			tiles[index] = new Tile(this->sprite_sheet, (*this->environment_sprites_indices)[this->id_map[i][j]], position);
 		}
 	}
+
+
 }
 
 Environment::~Environment() {
@@ -54,6 +56,10 @@ sf::Vector2i Environment::get_dimensions() {
 
 Tile** Environment::get_tiles() {
 	return this->tiles;
+}
+
+std::vector<sf::Vector2f> Environment::get_path() {
+	return this->path;
 }
 
 void Environment::draw(sf::RenderWindow& window) {
