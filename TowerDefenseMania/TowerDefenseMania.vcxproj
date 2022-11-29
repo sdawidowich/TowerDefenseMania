@@ -171,6 +171,7 @@
     <Image Include="assets\sprites\TowerSpriteSheet.png" />
   </ItemGroup>
   <ItemGroup>
+    <Font Include="assets\fonts\RetroGaming.ttf" />
     <Font Include="assets\fonts\upheavtt.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

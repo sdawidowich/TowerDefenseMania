@@ -6,7 +6,7 @@ Sprite::Sprite(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position) {
 
 	this->sprite = sf::Sprite(*this->texture, *this->crop);
 	this->sprite.setPosition(position);
-	this->sprite.setOrigin(sf::Vector2f(this->sprite.getGlobalBounds().width / 2.0, this->sprite.getGlobalBounds().height / 2.0));
+	this->sprite.setOrigin(sf::Vector2f(this->sprite.getGlobalBounds().width / 2, this->sprite.getGlobalBounds().height / 2));
 }
 
 sf::FloatRect Sprite::get_sprite_bounds() {

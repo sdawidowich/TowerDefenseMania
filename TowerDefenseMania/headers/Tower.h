@@ -8,6 +8,11 @@
 
 #include "Sprite.h"
 
+enum class TowerCost {
+	ARCHER_TOWER = 100, WIZARD_TOWER = 250
+};
+
+
 class Tower : public Sprite {
 protected:
 	int attack_damage;
@@ -17,7 +22,7 @@ protected:
 	sf::Clock timer;
 	sf::Time attack_cooldown;
 public:
-	Tower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, int attack_damage, int range, int cost, sf::Time attack_cooldown);
+	Tower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, int attack_damage, int range, TowerCost cost, sf::Time attack_cooldown);
 
 	int get_attack_damage();
 	int get_range();

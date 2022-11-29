@@ -13,6 +13,7 @@ GUI::GUI(sf::Font* font, sf::Texture* gui_sprite_sheet, std::map<int, sf::IntRec
 	this->tower_sprites_indices = tower_sprites_indices;
 	this->new_tower = nullptr;
 	this->tower_range_indicator = nullptr;
+	this->button_hover_label = sf::Text();
 
 	this->id_map = {
 		{3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3},
@@ -82,7 +83,7 @@ void GUI::draw_text(sf::RenderWindow& window, int level, int gold, int health, i
 		gold_text.setFont(*this->font);
 		gold_text.setString(std::to_string(gold));
 		gold_text.setCharacterSize(32);
-		gold_text.setPosition(60, 662);
+		gold_text.setPosition(50, 662);
 		gold_text.setFillColor(sf::Color::White);
 
 		std::stringstream health_ss;
@@ -93,7 +94,7 @@ void GUI::draw_text(sf::RenderWindow& window, int level, int gold, int health, i
 		health_text.setFont(*this->font);
 		health_text.setString(health_str);
 		health_text.setCharacterSize(32);
-		health_text.setPosition(200, 662);
+		health_text.setPosition(180, 662);
 		health_text.setFillColor(sf::Color::White);
 
 		window.draw(level_text);
@@ -104,7 +105,7 @@ void GUI::draw_text(sf::RenderWindow& window, int level, int gold, int health, i
 
 void GUI::draw_icons(sf::RenderWindow& window) {
 	Sprite gold_sprite(this->gui_sprite_sheet, (*this->gui_sprites_indices)[6], sf::Vector2f(30.f, 686.f));
-	Sprite health_sprite(this->gui_sprite_sheet, (*this->gui_sprites_indices)[7], sf::Vector2f(150.f, 686.f));
+	Sprite health_sprite(this->gui_sprite_sheet, (*this->gui_sprites_indices)[7], sf::Vector2f(160.f, 686.f));
 
 	Sprite archer_tower_sprite(this->tower_sprite_sheet, (*this->tower_sprites_indices)[0], this->buttons[0].get_position());
 	Sprite wizard_tower_sprite(this->tower_sprite_sheet, (*this->tower_sprites_indices)[1], this->buttons[1].get_position());
@@ -139,6 +140,18 @@ void GUI::draw_tower_range_indicator(sf::RenderWindow& window) {
 	}
 }
 
+void GUI::draw_button_hover_label(sf::RenderWindow& window)	{
+
+	if (!this->button_hover_label.getString().isEmpty()) {
+		window.draw(this->button_hover_label);
+
+		sf::Vector2f icon_pos(this->button_hover_label.getPosition().x - 35, this->button_hover_label.getPosition().y + 12);
+		Sprite icon_sprite(this->gui_sprite_sheet, (*this->gui_sprites_indices)[6], icon_pos);
+		icon_sprite.set_scale(sf::Vector2f(0.9f, 0.9f));
+		icon_sprite.draw(window);
+	}
+}
+
 std::vector<Button>* GUI::get_buttons() {
 	return &this->buttons;
 }
@@ -155,3 +168,21 @@ void GUI::set_tower_range_indicator(sf::CircleShape* tower_range_indicator) {
 	this->tower_range_indicator = tower_range_indicator;
 }
 
+void GUI::set_button_hover_label(Button& button, TowerCost cost) {
+	sf::Vector2f button_pos = button.get_position();
+
+	sf::Text hover_text;
+	hover_text.setFont(*this->font);
+	hover_text.setString(std::to_string((int)cost));
+	hover_text.setCharacterSize(24);
+	hover_text.setPosition(button_pos.x, button_pos.y - 55);
+	hover_text.setFillColor(sf::Color::White);
+	sf::FloatRect bounds = hover_text.getGlobalBounds();
+	hover_text.setOrigin(sf::Vector2f(bounds.width / 2, bounds.height / 2));
+
+	this->button_hover_label = hover_text;
+}
+
+void GUI::reset_button_hover_label() {
+	this->button_hover_label = sf::Text();
+}

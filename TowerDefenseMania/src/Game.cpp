@@ -131,6 +131,7 @@ void Game::draw_gui(sf::RenderWindow& window) {
 	this->gui->draw_text(window, this->level, this->gold, this->health, this->max_health);
 	this->gui->draw_icons(window);
 	this->gui->draw_selection(window);
+	this->gui->draw_button_hover_label(window);
 }
 
 void Game::draw_towers(sf::RenderWindow& window) {

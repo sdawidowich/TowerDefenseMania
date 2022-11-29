@@ -9,14 +9,33 @@ void EventHandler::check_button_clicks(sf::RenderWindow& window, sf::Event& even
 		if ((*buttons)[i].get_state() == Button_State::BTN_CLICKED) {
 			if ((*buttons)[i].get_label() == "archerTowerSelector") {
 				gui->select_tower<ArcherTower>((*buttons)[i], mouse_pos, 0);
-				break;
+				return;
 			}
 			else if ((*buttons)[i].get_label() == "wizardTowerSelector") {
 				gui->select_tower<WizardTower>((*buttons)[i], mouse_pos, 1);
-				break;
+				return;
 			}
 		}
 	}
+}
+
+void EventHandler::check_button_hovers(sf::RenderWindow& window, sf::Event& event, GUI* gui) {
+	std::vector<Button>* buttons = gui->get_buttons();
+	for (int i = 0; i < buttons->size(); i++) {
+		sf::Vector2f mouse_pos = sf::Vector2f(sf::Mouse::getPosition(window));
+
+		if ((*buttons)[i].get_state() == Button_State::BTN_HOVER) {
+			if ((*buttons)[i].get_label() == "archerTowerSelector") {
+				gui->set_button_hover_label((*buttons)[i], TowerCost::ARCHER_TOWER);
+				return;
+			}
+			else if ((*buttons)[i].get_label() == "wizardTowerSelector") {
+				gui->set_button_hover_label((*buttons)[i], TowerCost::WIZARD_TOWER);
+				return;
+			}
+		}
+	}
+	gui->reset_button_hover_label();
 }
 
 void EventHandler::check_selection_movement(sf::RenderWindow& window, GUI* gui) {
@@ -141,6 +160,9 @@ EventHandler::EventHandler() {
 void EventHandler::check_events(sf::RenderWindow& window, sf::Event& event, GUI* gui, Environment* environment, std::vector<Tower*>& towers) {
 	//// Check button clicks ////
 	this->check_button_clicks(window, event, gui);
+
+	//// Check button clicks ////
+	this->check_button_hovers(window, event, gui);
 
 	//// Move tower selection if a tower is selected ////
 	this->check_selection_movement(window, gui);

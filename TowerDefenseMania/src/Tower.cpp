@@ -1,10 +1,10 @@
 #include "Tower.h"
 
-Tower::Tower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, int attack_damage, int range, int cost, sf::Time attack_cooldown)
+Tower::Tower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, int attack_damage, int range, TowerCost cost, sf::Time attack_cooldown)
 	: Sprite(texture, crop, position) {
 	this->attack_damage = attack_damage;
 	this->range = range;
-	this->cost = cost;
+	this->cost = (int)cost;
 
 	this->timer.restart();
 	this->attack_cooldown = attack_cooldown;

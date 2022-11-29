@@ -99,6 +99,7 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
+    <Font Include="assets\fonts\RetroGaming.ttf" />
     <Font Include="assets\fonts\upheavtt.ttf" />
   </ItemGroup>
 </Project>
