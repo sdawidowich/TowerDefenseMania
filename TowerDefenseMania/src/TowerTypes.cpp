@@ -5,7 +5,7 @@ ArcherTower::ArcherTower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f p
 
 }
 
-void ArcherTower::attack(std::vector<Enemy>& enemies) {
+void ArcherTower::attack(std::vector<Enemy>& enemies, int& gold) {
 	if (this->timer.getElapsedTime() >= this->attack_cooldown) {
 		for (int i = 0; i < enemies.size(); i++) {
 			sf::Vector2f tower_pos = this->get_position();
@@ -16,6 +16,8 @@ void ArcherTower::attack(std::vector<Enemy>& enemies) {
 				enemies[i].take_damage(this->get_attack_damage());
 
 				if (enemies[i].get_health() <= 0) {
+					int gold_drop = enemies[i].get_gold_value();
+					gold += gold_drop;
 					enemies.erase(enemies.begin() + i);
 				}
 
@@ -31,7 +33,7 @@ WizardTower::WizardTower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f p
 
 }
 
-void WizardTower::attack(std::vector<Enemy>& enemies) {
+void WizardTower::attack(std::vector<Enemy>& enemies, int& gold) {
 	if (this->timer.getElapsedTime() >= this->attack_cooldown) {
 		for (int i = 0; i < enemies.size(); i++) {
 			sf::Vector2f tower_pos = this->get_position();
@@ -42,6 +44,8 @@ void WizardTower::attack(std::vector<Enemy>& enemies) {
 				enemies[i].take_damage(this->get_attack_damage());
 
 				if (enemies[i].get_health() <= 0) {
+					int gold_drop = enemies[i].get_gold_value();
+					gold += gold_drop;
 					enemies.erase(enemies.begin() + i);
 					i--;
 				}

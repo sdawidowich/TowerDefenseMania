@@ -75,15 +75,15 @@ void Game::delete_sprite_indices(std::map<int, sf::IntRect*>& sprites_indices) {
 	sprites_indices.clear();
 }
 
-void Game::towers_attack() {
-	for (int i = 0; i < this->towers.size(); i++) {
-		this->towers[i]->attack(this->enemies);
-	}
-	this->check_enemies();
-}
-
 void Game::check_events(sf::RenderWindow& window, sf::Event& event) {
 	this->event_handler.check_events(window, event, this->gui, this->environment, this->towers);
+}
+
+void Game::towers_attack() {
+	for (int i = 0; i < this->towers.size(); i++) {
+		this->towers[i]->attack(this->enemies, this->gold);
+	}
+	this->check_enemies();
 }
 
 void Game::check_enemies() {

@@ -28,5 +28,5 @@ public:
 	int get_range();
 	int get_cost();
 
-	virtual void attack(std::vector<Enemy>& enemies) = 0;
+	virtual void attack(std::vector<Enemy>& enemies, int& gold) = 0;
 };
