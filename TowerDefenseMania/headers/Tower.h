@@ -12,7 +12,6 @@ enum class TowerCost {
 	ARCHER_TOWER = 100, WIZARD_TOWER = 250
 };
 
-
 class Tower : public Sprite {
 protected:
 	int attack_damage;

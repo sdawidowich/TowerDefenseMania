@@ -13,7 +13,7 @@ GUI::GUI(sf::Font* font, sf::Texture* gui_sprite_sheet, std::map<int, sf::IntRec
 	this->tower_sprites_indices = tower_sprites_indices;
 	this->new_tower = nullptr;
 	this->tower_range_indicator = nullptr;
-	this->button_hover_label = sf::Text();
+	this->button_label = sf::Text();
 
 	this->id_map = {
 		{3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3},
@@ -51,10 +51,28 @@ GUI::GUI(sf::Font* font, sf::Texture* gui_sprite_sheet, std::map<int, sf::IntRec
 		}
 	}
 
-	Button archer_tower_select_button = Button(this->gui_sprite_sheet, (*this->gui_sprites_indices)[0], sf::Vector2f(602, 670), "archerTowerSelector", (*this->gui_sprites_indices)[1], (*this->gui_sprites_indices)[2]);
+	Button archer_tower_select_button = Button(this->gui_sprite_sheet, (*this->gui_sprites_indices)[0], sf::Vector2f(602, 670), "archerTowerSelector",
+		[this](sf::RenderWindow& window, Button* btn) {
+			btn->set_crop((*this->gui_sprites_indices)[0]); 
+		},
+		[this](sf::RenderWindow& window, Button* btn) {
+			btn->set_crop((*this->gui_sprites_indices)[1]); 
+		},
+		[this](sf::RenderWindow& window, Button* btn) {
+			this->select_tower<ArcherTower>(btn, sf::Vector2f(sf::Mouse::getPosition(window)), 0); 
+		});
 	this->buttons.push_back(archer_tower_select_button);
 
-	Button wizard_tower_select_button = Button(this->gui_sprite_sheet, (*this->gui_sprites_indices)[0], sf::Vector2f(698, 670), "wizardTowerSelector", (*this->gui_sprites_indices)[1], (*this->gui_sprites_indices)[2]);
+	Button wizard_tower_select_button = Button(this->gui_sprite_sheet, (*this->gui_sprites_indices)[0], sf::Vector2f(698, 670), "wizardTowerSelector",
+		[this](sf::RenderWindow& window, Button* btn) {
+			btn->set_crop((*this->gui_sprites_indices)[0]); 
+		},
+		[this](sf::RenderWindow& window, Button* btn) {
+			btn->set_crop((*this->gui_sprites_indices)[1]); 
+		},
+		[this](sf::RenderWindow& window, Button* btn) {
+			this->select_tower<WizardTower>(btn, sf::Vector2f(sf::Mouse::getPosition(window)), 1); 
+		});
 	this->buttons.push_back(wizard_tower_select_button);
 }
 
@@ -140,12 +158,11 @@ void GUI::draw_tower_range_indicator(sf::RenderWindow& window) {
 	}
 }
 
-void GUI::draw_button_hover_label(sf::RenderWindow& window)	{
+void GUI::draw_button_label(sf::RenderWindow& window) {
+	if (!this->button_label.getString().isEmpty()) {
+		window.draw(this->button_label);
 
-	if (!this->button_hover_label.getString().isEmpty()) {
-		window.draw(this->button_hover_label);
-
-		sf::Vector2f icon_pos(this->button_hover_label.getPosition().x - 35, this->button_hover_label.getPosition().y + 12);
+		sf::Vector2f icon_pos(this->button_label.getPosition().x - 35, this->button_label.getPosition().y + 12);
 		Sprite icon_sprite(this->gui_sprite_sheet, (*this->gui_sprites_indices)[6], icon_pos);
 		icon_sprite.set_scale(sf::Vector2f(0.9f, 0.9f));
 		icon_sprite.draw(window);
@@ -168,21 +185,21 @@ void GUI::set_tower_range_indicator(sf::CircleShape* tower_range_indicator) {
 	this->tower_range_indicator = tower_range_indicator;
 }
 
-void GUI::set_button_hover_label(Button& button, TowerCost cost) {
+void GUI::set_button_label(Button& button, TowerCost cost) {
 	sf::Vector2f button_pos = button.get_position();
 
-	sf::Text hover_text;
-	hover_text.setFont(*this->font);
-	hover_text.setString(std::to_string((int)cost));
-	hover_text.setCharacterSize(24);
-	hover_text.setPosition(button_pos.x, button_pos.y - 55);
-	hover_text.setFillColor(sf::Color::White);
-	sf::FloatRect bounds = hover_text.getGlobalBounds();
-	hover_text.setOrigin(sf::Vector2f(bounds.width / 2, bounds.height / 2));
+	sf::Text label_text;
+	label_text.setFont(*this->font);
+	label_text.setString(std::to_string((int)cost));
+	label_text.setCharacterSize(24);
+	label_text.setPosition(button_pos.x, button_pos.y - 55);
+	label_text.setFillColor(sf::Color::White);
+	sf::FloatRect bounds = label_text.getGlobalBounds();
+	label_text.setOrigin(sf::Vector2f(bounds.width / 2, bounds.height / 2));
 
-	this->button_hover_label = hover_text;
+	this->button_label = label_text;
 }
 
-void GUI::reset_button_hover_label() {
-	this->button_hover_label = sf::Text();
+void GUI::reset_button_label() {
+	this->button_label = sf::Text();
 }

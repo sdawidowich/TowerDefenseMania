@@ -38,8 +38,10 @@ Environment::Environment(sf::Texture* sprite_sheet, std::map<int, sf::IntRect*>*
 			tiles[index] = new Tile(this->sprite_sheet, (*this->environment_sprites_indices)[this->id_map[i][j]], position);
 		}
 	}
-
-
+	
+	this->path = {
+		{}
+	};
 }
 
 Environment::~Environment() {

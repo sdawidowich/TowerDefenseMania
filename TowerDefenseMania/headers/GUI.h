@@ -25,7 +25,7 @@ private:
 	Tower* new_tower;
 
 	sf::CircleShape* tower_range_indicator;
-	sf::Text button_hover_label;
+	sf::Text button_label;
 public:
 	GUI(sf::Font* font, sf::Texture* gui_sprite_sheet, std::map<int, sf::IntRect*>* gui_sprites_indices, sf::Texture* tower_sprite_sheet, std::map<int, sf::IntRect*>* tower_sprites_indices);
 
@@ -37,28 +37,29 @@ public:
 	void draw_buttons(sf::RenderWindow& window);
 	void draw_selection(sf::RenderWindow& window);
 	void draw_tower_range_indicator(sf::RenderWindow& window);
-	void draw_button_hover_label(sf::RenderWindow& window);
+	void draw_button_label(sf::RenderWindow& window);
 
 	std::vector<Button>* get_buttons();
 	Tower* get_new_tower();
 	sf::CircleShape* get_tower_range_indicator();
 
 	void set_tower_range_indicator(sf::CircleShape* tower_range_indicator);
-	void set_button_hover_label(Button& button, TowerCost cost);
-	void reset_button_hover_label();
+	void set_button_label(Button& button, TowerCost cost);
+	void reset_button_label();
 
 	template<typename T>
-	void select_tower(Button& button, sf::Vector2f& mouse_pos, int tower_sprite_index) {
+	void select_tower(Button* button, sf::Vector2f mouse_pos, int tower_sprite_index) {
 		delete this->new_tower;
 		this->new_tower = nullptr;
 
-		if (!button.get_selected()) {
+		if (!button->is_selected()) {
 			this->new_tower = new T(this->tower_sprite_sheet, (*this->tower_sprites_indices)[tower_sprite_index], mouse_pos);
 
 			for (int i = 0; i < this->buttons.size(); i++) {
 				this->buttons[i].deselect();
 			}
-			button.select();
+			button->select();
+			button->set_crop((*this->gui_sprites_indices)[2]);
 		}
 		else {
 			for (int i = 0; i < this->buttons.size(); i++) {
