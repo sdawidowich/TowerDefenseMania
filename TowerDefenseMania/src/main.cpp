@@ -12,7 +12,6 @@ int main() {
 	sf::RenderWindow window(sf::VideoMode(width, height), "Tower Defense Mania", sf::Style::Default, settings);
 	window.setFramerateLimit(60);
 
-
 	Game game;
 
 	while (window.isOpen()) {

@@ -39,9 +39,51 @@ Environment::Environment(sf::Texture* sprite_sheet, std::map<int, sf::IntRect*>*
 		}
 	}
 	
-	this->path = {
-		{}
-	};
+	int i = 11;
+	int j = 0;
+	int p_i = i;
+	int p_j = j;
+	int index = (i * (int)this->id_map[i].size()) + j;
+	this->path.push_back(index);
+	while (true) {
+ 		int up = (i - 1 < 0) ? 0 : i - 1;
+		int down = (i + 1 >= this->id_map.size()) ? this->id_map.size() - 1 : i + 1;
+		int left = (j - 1 < 0) ? 0 : j - 1;
+		int right = (j + 1 >= this->id_map[i].size()) ? this->id_map[i].size() - 1: j + 1;
+
+		if (up != i && up != p_i && this->id_map[up][j] == 4) {
+			p_i = i;
+			p_j = j;
+			i--;
+			index = (i * (int)this->id_map[i].size()) + j;
+			this->path.push_back(index);
+		}
+		else if (down != i && down != p_i && this->id_map[down][j] == 4) {
+			p_i = i;
+			p_j = j;
+			i++;
+			index = (i * (int)this->id_map[i].size()) + j;
+			this->path.push_back(index);
+		}
+		else if (left != j && left != p_j && this->id_map[i][left] == 4) {
+			p_i = i;
+			p_j = j;
+			j--;
+			index = (i * (int)this->id_map[i].size()) + j;
+			this->path.push_back(index);
+		}
+		else if (right != j && right != p_j && this->id_map[i][right] == 4) {
+			p_i = i;
+			p_j = j;
+			j++;
+			index = (i * (int)this->id_map[i].size()) + j;
+			this->path.push_back(index);
+		}
+
+		if (j >= this->id_map[i].size() - 1) {
+			break;
+		}
+	}
 }
 
 Environment::~Environment() {
@@ -60,7 +102,7 @@ Tile** Environment::get_tiles() {
 	return this->tiles;
 }
 
-std::vector<sf::Vector2f> Environment::get_path() {
+std::vector<int> Environment::get_path() {
 	return this->path;
 }
 

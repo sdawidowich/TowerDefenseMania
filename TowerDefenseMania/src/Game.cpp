@@ -96,19 +96,37 @@ void Game::check_enemies() {
 }
 
 void Game::generate_enemies() {
+	std::vector<int> path = this->environment->get_path();
+	Tile* start_tile = this->environment->get_tiles()[path[0]];
+
 	int lvl_num_enemies = this->level * 3;
 	if (this->num_generated_enemies < lvl_num_enemies) {
 		if (this->timer.getElapsedTime() >= this->generate_delay) {
 			timer.restart();
 			this->generate_delay = sf::Time(sf::seconds((float)this->distr(this->gen)));
-			this->enemies.push_back(Zombie(this->enemy_sprite_sheet, this->enemy_sprites_indices[0], sf::Vector2f(0.f, 200.f), sf::Vector2i(1, 0)));
+			this->enemies.push_back(Zombie(this->enemy_sprite_sheet, this->enemy_sprites_indices[0], sf::Vector2f(0.f, start_tile->get_position().y), sf::Vector2i(1, 0)));
 			this->num_generated_enemies++;
 		}
 	}
 }
 
 void Game::move_enemies() {
+	std::vector<int> path = this->environment->get_path();
 	for (int i = 0; i < this->enemies.size(); i++) {
+		int index = enemies[i].get_path_index();
+		Tile* tile = this->environment->get_tiles()[path[index]];
+
+		sf::Vector2f dis = sf::Vector2f(tile->get_position().x - this->enemies[i].get_position().x, tile->get_position().y - this->enemies[i].get_position().y);
+		if (dis.x == 0 && dis.y == 0) {
+			this->enemies[i].set_path_index(index + 1);
+
+			index = enemies[i].get_path_index();
+			tile = this->environment->get_tiles()[path[index]];
+			dis = sf::Vector2f(tile->get_position().x - this->enemies[i].get_position().x, tile->get_position().y - this->enemies[i].get_position().y);
+			double total_dis = std::sqrt(std::pow(dis.x, 2) + std::pow(dis.y, 2));
+			this->enemies[i].change_dir(sf::Vector2i(dis.x / total_dis, dis.y / total_dis));
+		}
+		
 		enemies[i].move();
 	}
 }
