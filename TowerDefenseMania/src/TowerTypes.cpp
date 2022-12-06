@@ -1,7 +1,7 @@
 #include "TowerTypes.h"
 
 ArcherTower::ArcherTower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position) 
-	: Tower(texture, crop, position, 10, 100, TowerCost::ARCHER_TOWER, sf::Time(sf::seconds(0.75))) {
+	: Tower(texture, crop, position, 4, 150, TowerCost::ARCHER_TOWER, sf::Time(sf::seconds(0.75))) {
 
 }
 
@@ -29,7 +29,7 @@ void ArcherTower::attack(std::vector<Enemy>& enemies, int& gold) {
 }
 
 WizardTower::WizardTower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position) 
-	: Tower(texture, crop, position, 10, 100, TowerCost::WIZARD_TOWER, sf::Time(sf::seconds(1.5))) {
+	: Tower(texture, crop, position, 3, 100, TowerCost::WIZARD_TOWER, sf::Time(sf::seconds(1.5))) {
 
 }
 

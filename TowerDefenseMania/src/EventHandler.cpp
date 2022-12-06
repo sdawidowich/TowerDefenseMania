@@ -28,6 +28,7 @@ void EventHandler::check_tower_placement(sf::RenderWindow& window, sf::Event& ev
 	Tower* new_tower = gui->get_new_tower();
 	Tile** tiles = environment->get_tiles();
 	int num_tiles = environment->get_num_tiles();
+	std::vector<int> path = environment->get_path();
 	sf::Vector2i env_dimensions = environment->get_dimensions();
 
 	// Reset highlights
@@ -35,13 +36,12 @@ void EventHandler::check_tower_placement(sf::RenderWindow& window, sf::Event& ev
 		tiles[i]->set_highlight(false);
 	}
 
+	bool valid_placement = true;
 	sf::Vector2f new_posiiton;
 	int x_quadrant = -1;
 	int y_quadrant = -1;
 	for (int i = 0; i < num_tiles; i++) {
 		if (tiles[i]->get_sprite_bounds().contains(mouse_pos)) {
-			tiles[i]->set_highlight(true);
-
 			sf::Vector2f tile_pos = tiles[i]->get_position();
 			if (mouse_pos.x > tile_pos.x) {
 				x_quadrant = 1;
@@ -63,31 +63,52 @@ void EventHandler::check_tower_placement(sf::RenderWindow& window, sf::Event& ev
 				y_quadrant = 1;
 			}
 
-			tiles[i + x_quadrant]->set_highlight(true);
-			tiles[i + y_quadrant * env_dimensions.x]->set_highlight(true);
-			tiles[i + x_quadrant + y_quadrant * env_dimensions.x]->set_highlight(true);
+			int tile_indices[] = { 
+				i,
+				i + x_quadrant, 
+				i + y_quadrant * env_dimensions.x, 
+				i + x_quadrant + y_quadrant * env_dimensions.x 
+			};
+			
+			tiles[tile_indices[0]]->set_highlight(true);
+			tiles[tile_indices[1]]->set_highlight(true);
+			tiles[tile_indices[2]]->set_highlight(true);
+			tiles[tile_indices[3]]->set_highlight(true);
 
 			sf::FloatRect tile_bounds = tiles[i]->get_sprite_bounds();
 			new_posiiton = sf::Vector2f(tile_pos.x + (float)x_quadrant * 0.5f * tile_bounds.width, tile_pos.y + (float)y_quadrant * 0.5f * tile_bounds.height);
+			
+			for (int i = 0; i < 4; i++) {
+				if (std::find(path.begin(), path.end(), tile_indices[i]) != path.end()) {
+					valid_placement = false;
+				}
+			}
+			for (Tower* tower : towers) {
+				if (std::abs(tower->get_position().x - new_posiiton.x) <= 32 && std::abs(tower->get_position().y - new_posiiton.y) <= 32) {
+					valid_placement = false;
+				}
+			}
 			break;
 		}
 	}
 
 	if (event.type == sf::Event::MouseButtonReleased) {
-		float left = tiles[0]->get_sprite_bounds().left;
-		float top = tiles[0]->get_sprite_bounds().top;
-		float width = tiles[num_tiles - 1]->get_sprite_bounds().left + tiles[num_tiles - 1]->get_sprite_bounds().width;
-		float height = tiles[num_tiles - 1]->get_sprite_bounds().top + tiles[num_tiles - 1]->get_sprite_bounds().height;
-		sf::FloatRect gameboard_bounds(left, top, width, height);
+		if (valid_placement) {
+			float left = tiles[0]->get_sprite_bounds().left;
+			float top = tiles[0]->get_sprite_bounds().top;
+			float width = tiles[num_tiles - 1]->get_sprite_bounds().left + tiles[num_tiles - 1]->get_sprite_bounds().width;
+			float height = tiles[num_tiles - 1]->get_sprite_bounds().top + tiles[num_tiles - 1]->get_sprite_bounds().height;
+			sf::FloatRect gameboard_bounds(left, top, width, height);
 
-		if (gameboard_bounds.contains(mouse_pos)) {
-			gui->get_new_tower()->set_position(new_posiiton);
-			towers.push_back(gui->get_new_tower());
-			gui->reset_selection();
+			if (gameboard_bounds.contains(mouse_pos)) {
+				gui->get_new_tower()->set_position(new_posiiton);
+				towers.push_back(gui->get_new_tower());
+				gui->reset_selection();
 
-			// Reset highlights
-			for (int i = 0; i < num_tiles; i++) {
-				tiles[i]->set_highlight(false);
+				// Reset highlights
+				for (int i = 0; i < num_tiles; i++) {
+					tiles[i]->set_highlight(false);
+				}
 			}
 		}
 	}
