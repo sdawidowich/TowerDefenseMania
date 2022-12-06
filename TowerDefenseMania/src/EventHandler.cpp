@@ -93,23 +93,25 @@ void EventHandler::check_tower_placement(sf::RenderWindow& window, sf::Event& ev
 	}
 
 	if (event.type == sf::Event::MouseButtonReleased) {
-		if (valid_placement) {
-			float left = tiles[0]->get_sprite_bounds().left;
-			float top = tiles[0]->get_sprite_bounds().top;
-			float width = tiles[num_tiles - 1]->get_sprite_bounds().left + tiles[num_tiles - 1]->get_sprite_bounds().width;
-			float height = tiles[num_tiles - 1]->get_sprite_bounds().top + tiles[num_tiles - 1]->get_sprite_bounds().height;
-			sf::FloatRect gameboard_bounds(left, top, width, height);
+		float left = tiles[0]->get_sprite_bounds().left;
+		float top = tiles[0]->get_sprite_bounds().top;
+		float width = tiles[num_tiles - 1]->get_sprite_bounds().left + tiles[num_tiles - 1]->get_sprite_bounds().width;
+		float height = tiles[num_tiles - 1]->get_sprite_bounds().top + tiles[num_tiles - 1]->get_sprite_bounds().height;
+		sf::FloatRect gameboard_bounds(left, top, width, height);
 
-			if (gameboard_bounds.contains(mouse_pos)) {
-				gui->get_new_tower()->set_position(new_posiiton);
-				towers.push_back(gui->get_new_tower());
-				gui->reset_selection();
+		if (valid_placement && gameboard_bounds.contains(mouse_pos)) {
+			gui->get_new_tower()->set_position(new_posiiton);
+			towers.push_back(gui->get_new_tower());
+			gui->reset_selection();
 
-				// Reset highlights
-				for (int i = 0; i < num_tiles; i++) {
-					tiles[i]->set_highlight(false);
-				}
+			// Reset highlights
+			for (int i = 0; i < num_tiles; i++) {
+				tiles[i]->set_highlight(false);
 			}
+			return;
+		}
+		else if (gameboard_bounds.contains(mouse_pos)) {
+			gui->set_error_text("Invalid Tower Placement");
 		}
 	}
 }
@@ -153,8 +155,15 @@ void EventHandler::check_tower_click(sf::RenderWindow& window, sf::Event& event,
 	}
 }
 
-EventHandler::EventHandler() {
+void EventHandler::check_error_timer(sf::RenderWindow& window, sf::Event& event, GUI* gui) {
+	if (!gui->get_error_text().getString().isEmpty()) {
+		if (gui->get_error_timer().getElapsedTime() >= gui->get_error_lifespan()) {
+			gui->reset_error_text();
+		}
+	}
 }
+
+EventHandler::EventHandler() { }
 
 void EventHandler::check_events(sf::RenderWindow& window, sf::Event& event, GUI* gui, Environment* environment, std::vector<Tower*>& towers) {
 	//// Check button events ////
@@ -170,4 +179,7 @@ void EventHandler::check_events(sf::RenderWindow& window, sf::Event& event, GUI*
 
 	//// Check tower click ////
 	this->check_tower_click(window, event, gui, towers);
+
+	//// Check error timer ////
+	this->check_error_timer(window, event, gui);
 }

@@ -26,10 +26,16 @@ private:
 
 	sf::CircleShape* tower_range_indicator;
 	sf::Text button_label;
+	sf::Text error_text;
+
+	sf::Clock error_timer;
+	sf::Time error_lifespan;
 public:
 	GUI(sf::Font* font, sf::Texture* gui_sprite_sheet, std::map<int, sf::IntRect*>* gui_sprites_indices, sf::Texture* tower_sprite_sheet, std::map<int, sf::IntRect*>* tower_sprites_indices);
 
 	void reset_selection();
+	void reset_error_text();
+	void reset_button_label();
 
 	void draw_text(sf::RenderWindow& window, int level, int gold, int health, int max_health);
 	void draw_icons(sf::RenderWindow& window);
@@ -38,14 +44,18 @@ public:
 	void draw_selection(sf::RenderWindow& window);
 	void draw_tower_range_indicator(sf::RenderWindow& window);
 	void draw_button_label(sf::RenderWindow& window);
+	void draw_error_text(sf::RenderWindow& window);
 
 	std::vector<Button>* get_buttons();
 	Tower* get_new_tower();
 	sf::CircleShape* get_tower_range_indicator();
+	sf::Text get_error_text();
+	sf::Clock get_error_timer();
+	sf::Time get_error_lifespan();
 
 	void set_tower_range_indicator(sf::CircleShape* tower_range_indicator);
 	void set_button_label(Button& button, TowerCost cost);
-	void reset_button_label();
+	void set_error_text(std::string error_str);
 
 	template<typename T>
 	void select_tower(Button* button, sf::Vector2f mouse_pos, int tower_sprite_index) {

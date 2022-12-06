@@ -14,6 +14,9 @@ GUI::GUI(sf::Font* font, sf::Texture* gui_sprite_sheet, std::map<int, sf::IntRec
 	this->new_tower = nullptr;
 	this->tower_range_indicator = nullptr;
 	this->button_label = sf::Text();
+	this->error_text = sf::Text();
+	this->error_timer.restart();
+	this->error_lifespan = sf::seconds(2.f);
 
 	this->id_map = {
 		{3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3},
@@ -82,6 +85,15 @@ void GUI::reset_selection() {
 	for (int i = 0; i < this->buttons.size(); i++) {
 		this->buttons[i].deselect();
 	}
+}
+
+void GUI::reset_button_label() {
+	this->button_label = sf::Text();
+}
+
+void GUI::reset_error_text() {
+	this->error_text = sf::Text();
+	this->error_timer.restart();
 }
 
 void GUI::draw_text(sf::RenderWindow& window, int level, int gold, int health, int max_health) {
@@ -169,6 +181,12 @@ void GUI::draw_button_label(sf::RenderWindow& window) {
 	}
 }
 
+void GUI::draw_error_text(sf::RenderWindow& window) {
+	if (!this->error_text.getString().isEmpty()) {
+		window.draw(this->error_text);
+	}
+}
+
 std::vector<Button>* GUI::get_buttons() {
 	return &this->buttons;
 }
@@ -179,6 +197,18 @@ Tower* GUI::get_new_tower() {
 
 sf::CircleShape* GUI::get_tower_range_indicator() {
 	return this->tower_range_indicator;
+}
+
+sf::Text GUI::get_error_text() {
+	return this->error_text;
+}
+
+sf::Clock GUI::get_error_timer() {
+	return this->error_timer;
+}
+
+sf::Time GUI::get_error_lifespan() {
+	return this->error_lifespan;
 }
 
 void GUI::set_tower_range_indicator(sf::CircleShape* tower_range_indicator) {
@@ -200,6 +230,16 @@ void GUI::set_button_label(Button& button, TowerCost cost) {
 	this->button_label = label_text;
 }
 
-void GUI::reset_button_label() {
-	this->button_label = sf::Text();
+void GUI::set_error_text(std::string error_str) {
+	this->reset_error_text();
+	sf::Text error_text;
+	error_text.setFont(*this->font);
+	error_text.setString(error_str);
+	error_text.setCharacterSize(24);
+	error_text.setPosition(sf::Vector2f(640.f, 100.f));
+	error_text.setFillColor(sf::Color::Red);
+	sf::FloatRect bounds = error_text.getGlobalBounds();
+	error_text.setOrigin(sf::Vector2f(bounds.width / 2, bounds.height / 2));
+
+	this->error_text = error_text;
 }

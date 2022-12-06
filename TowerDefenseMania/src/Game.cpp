@@ -151,6 +151,7 @@ void Game::draw_gui(sf::RenderWindow& window) {
 	this->gui->draw_icons(window);
 	this->gui->draw_selection(window);
 	this->gui->draw_button_label(window);
+	this->gui->draw_error_text(window);
 }
 
 void Game::draw_towers(sf::RenderWindow& window) {
