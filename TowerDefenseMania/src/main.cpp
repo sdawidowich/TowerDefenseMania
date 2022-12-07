@@ -20,29 +20,56 @@ int main() {
 			if (event.type == sf::Event::Closed) {
 				window.close();
 			}
-
-			game.check_events(window, event);
-
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 				window.close();
 			}
+
+			if (game.get_game_over() == Game_State::START) {
+
+			}
+			else if (game.get_game_over() == Game_State::PLAYING) {
+				game.check_events(window, event);
+			}
+			else if (game.get_game_over() == Game_State::GAME_OVER) {
+				if (event.type == sf::Event::KeyPressed) {
+					window.close();
+				}
+			}
 		}
+
 		//render
-		window.clear();
+		if (game.get_game_over() == Game_State::START) {
+			window.clear();
 
-		game.towers_attack();
+			game.draw_start_screen(window);
 
-		game.move_enemies();
-		game.generate_enemies();
+			window.display();
+		}
+		else if (game.get_game_over() == Game_State::PLAYING) {
+			window.clear();
 
-		game.advance_lvl();
+			game.check_error_timer();
 
-		game.draw_environment(window);
-		game.draw_gui(window);
-		game.draw_towers(window);
-		game.draw_enemies(window);
+			game.towers_attack();
+			game.move_enemies();
+			game.generate_enemies();
+			game.advance_lvl();
 
-		window.display();
+			game.draw_environment(window);
+			game.draw_gui(window);
+			game.draw_towers(window);
+			game.draw_enemies(window);
+			game.check_game_end();
+
+			window.display();
+		}
+		else if (game.get_game_over() == Game_State::GAME_OVER) {
+			window.clear();
+			
+			game.draw_game_over(window);
+
+			window.display();
+		}
 	}
 
 	return 0;

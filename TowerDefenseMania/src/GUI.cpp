@@ -235,9 +235,9 @@ void GUI::set_error_text(std::string error_str) {
 	sf::Text error_text;
 	error_text.setFont(*this->font);
 	error_text.setString(error_str);
-	error_text.setCharacterSize(24);
+	error_text.setCharacterSize(32);
 	error_text.setPosition(sf::Vector2f(640.f, 100.f));
-	error_text.setFillColor(sf::Color::Red);
+	error_text.setFillColor(sf::Color(148, 13, 13, 255));
 	sf::FloatRect bounds = error_text.getGlobalBounds();
 	error_text.setOrigin(sf::Vector2f(bounds.width / 2, bounds.height / 2));
 

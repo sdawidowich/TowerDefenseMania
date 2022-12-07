@@ -1,7 +1,7 @@
 #include "TowerTypes.h"
 
 ArcherTower::ArcherTower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position) 
-	: Tower(texture, crop, position, 4, 150, TowerCost::ARCHER_TOWER, sf::Time(sf::seconds(0.75))) {
+	: Tower(texture, crop, position, 4, 200, TowerCost::ARCHER_TOWER, sf::Time(sf::seconds(0.75))) {
 
 }
 

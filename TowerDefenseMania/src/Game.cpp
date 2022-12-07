@@ -38,6 +38,8 @@ Game::Game() {
 	this->timer.restart();
 	this->generate_delay = sf::Time(sf::seconds((float)this->distr(this->gen)));
 	this->num_generated_enemies = 0;
+
+	this->game_over = Game_State::PLAYING;
 }
 
 Game::~Game() {
@@ -75,8 +77,27 @@ void Game::delete_sprite_indices(std::map<int, sf::IntRect*>& sprites_indices) {
 	sprites_indices.clear();
 }
 
+Game_State Game::get_game_over() {
+	return this->game_over;
+}
+
 void Game::check_events(sf::RenderWindow& window, sf::Event& event) {
-	this->event_handler.check_events(window, event, this->gui, this->environment, this->towers);
+	this->event_handler.check_events(window, event, this->gui, this->environment, this->towers, this->gold);
+}
+
+void Game::check_error_timer() {
+	if (!this->gui->get_error_text().getString().isEmpty()) {
+		if (this->gui->get_error_timer().getElapsedTime() >= this->gui->get_error_lifespan()) {
+			this->gui->reset_error_text();
+		}
+	}
+}
+
+void Game::check_game_end() {
+	if (this->health <= 0) {
+		this->health = 0;
+		this->game_over = Game_State::GAME_OVER;
+	}
 }
 
 void Game::towers_attack() {
@@ -121,6 +142,12 @@ void Game::move_enemies() {
 			this->enemies[i].set_path_index(index + 1);
 
 			index = enemies[i].get_path_index();
+			if (index >= path.size()) {
+				this->health -= this->enemies[i].get_damage();
+				this->enemies.erase(this->enemies.begin() + i);
+				i--;
+				break;
+			}
 			tile = this->environment->get_tiles()[path[index]];
 			dis = sf::Vector2f(tile->get_position().x - this->enemies[i].get_position().x, tile->get_position().y - this->enemies[i].get_position().y);
 			double total_dis = std::sqrt(std::pow(dis.x, 2) + std::pow(dis.y, 2));
@@ -137,6 +164,10 @@ void Game::advance_lvl() {
 		this->num_generated_enemies = 0;
 		this->level++;
 	}
+}
+
+void Game::draw_start_screen(sf::RenderWindow& window) {
+
 }
 
 void Game::draw_environment(sf::RenderWindow& window) {
@@ -164,4 +195,27 @@ void Game::draw_enemies(sf::RenderWindow& window) {
 	for (int i = 0; i < this->enemies.size(); i++) {
 		this->enemies[i].draw(window);
 	}
+}
+
+void Game::draw_game_over(sf::RenderWindow& window) {
+	sf::Text game_over_text;
+	game_over_text.setFont(*this->font);
+	game_over_text.setString("Game Over!");
+	game_over_text.setCharacterSize(48);
+	game_over_text.setPosition(sf::Vector2f(640.f, 360.f));
+	game_over_text.setFillColor(sf::Color(186, 11, 11, 255));
+	sf::FloatRect bounds = game_over_text.getGlobalBounds();
+	game_over_text.setOrigin(sf::Vector2f(bounds.width / 2, bounds.height / 2));
+
+	sf::Text quit_text;
+	quit_text.setFont(*this->font);
+	quit_text.setString("Press any key to continue...");
+	quit_text.setCharacterSize(24);
+	quit_text.setPosition(sf::Vector2f(640.f, 400.f));
+	quit_text.setFillColor(sf::Color::White);
+	bounds = quit_text.getGlobalBounds();
+	quit_text.setOrigin(sf::Vector2f(bounds.width / 2, bounds.height / 2));
+
+	window.draw(game_over_text);
+	window.draw(quit_text);
 }

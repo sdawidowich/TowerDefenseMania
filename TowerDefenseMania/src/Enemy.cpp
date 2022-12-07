@@ -14,6 +14,10 @@ int Enemy::get_health() {
 	return this->health;
 }
 
+int Enemy::get_damage() {
+	return this->damage;
+}
+
 int Enemy::get_gold_value() {
 	return this->gold_value;
 }

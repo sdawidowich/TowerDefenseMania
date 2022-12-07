@@ -23,7 +23,7 @@ void EventHandler::check_selection_movement(sf::RenderWindow& window, GUI* gui) 
 	}
 }
 
-void EventHandler::check_tower_placement(sf::RenderWindow& window, sf::Event& event, GUI* gui, Environment* environment, std::vector<Tower*>& towers) {
+void EventHandler::check_tower_placement(sf::RenderWindow& window, sf::Event& event, GUI* gui, Environment* environment, std::vector<Tower*>& towers, int& gold) {
 	sf::Vector2f mouse_pos = sf::Vector2f(sf::Mouse::getPosition(window));
 	Tower* new_tower = gui->get_new_tower();
 	Tile** tiles = environment->get_tiles();
@@ -100,6 +100,12 @@ void EventHandler::check_tower_placement(sf::RenderWindow& window, sf::Event& ev
 		sf::FloatRect gameboard_bounds(left, top, width, height);
 
 		if (valid_placement && gameboard_bounds.contains(mouse_pos)) {
+			if (gui->get_new_tower()->get_cost() > gold) {
+				gui->set_error_text("Insufficient Gold");
+				return;
+			}
+
+			gold -= gui->get_new_tower()->get_cost();
 			gui->get_new_tower()->set_position(new_posiiton);
 			towers.push_back(gui->get_new_tower());
 			gui->reset_selection();
@@ -155,17 +161,9 @@ void EventHandler::check_tower_click(sf::RenderWindow& window, sf::Event& event,
 	}
 }
 
-void EventHandler::check_error_timer(sf::RenderWindow& window, sf::Event& event, GUI* gui) {
-	if (!gui->get_error_text().getString().isEmpty()) {
-		if (gui->get_error_timer().getElapsedTime() >= gui->get_error_lifespan()) {
-			gui->reset_error_text();
-		}
-	}
-}
-
 EventHandler::EventHandler() { }
 
-void EventHandler::check_events(sf::RenderWindow& window, sf::Event& event, GUI* gui, Environment* environment, std::vector<Tower*>& towers) {
+void EventHandler::check_events(sf::RenderWindow& window, sf::Event& event, GUI* gui, Environment* environment, std::vector<Tower*>& towers, int& gold) {
 	//// Check button events ////
 	this->check_button_events(window, event, gui);
 
@@ -174,12 +172,9 @@ void EventHandler::check_events(sf::RenderWindow& window, sf::Event& event, GUI*
 
 	//// Check tower placing ////
 	if (gui->get_new_tower()) {
-		this->check_tower_placement(window, event, gui, environment, towers);
+		this->check_tower_placement(window, event, gui, environment, towers, gold);
 	}
 
 	//// Check tower click ////
 	this->check_tower_click(window, event, gui, towers);
-
-	//// Check error timer ////
-	this->check_error_timer(window, event, gui);
 }

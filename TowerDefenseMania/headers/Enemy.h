@@ -15,6 +15,7 @@ public:
 	Enemy(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, float speed, int health, int damage, int gold_value, sf::Vector2i dir);
 
 	int get_health();
+	int get_damage();
 	int get_gold_value();
 	int get_path_index();
 	sf::Vector2i get_dir();

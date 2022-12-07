@@ -12,6 +12,10 @@
 #include "EnemyTypes.h"
 #include "EventHandler.h"
 
+enum class Game_State {
+	START, PLAYING, GAME_OVER
+};
+
 class Game {
 private:
 	std::random_device rd;
@@ -43,6 +47,8 @@ private:
 	sf::Clock timer;
 	sf::Time generate_delay;
 	int num_generated_enemies;
+
+	Game_State game_over;
 public:
 	Game();
 	~Game();
@@ -50,18 +56,22 @@ public:
 	void set_sprite_indices(sf::Texture* sprite_sheet, std::map<int, sf::IntRect*>& sprites_indices);
 	void delete_sprite_indices(std::map<int, sf::IntRect*>& sprites_indices);
 
+	Game_State get_game_over();
+
 	void check_events(sf::RenderWindow& window, sf::Event& event);
+	void check_error_timer();
+	void check_game_end();
 
 	void towers_attack();
-
 	void check_enemies();
 	void generate_enemies();
 	void move_enemies();
-
 	void advance_lvl();
 
+	void draw_start_screen(sf::RenderWindow& window);
 	void draw_environment(sf::RenderWindow& window);
 	void draw_gui(sf::RenderWindow& window);
 	void draw_towers(sf::RenderWindow& window);
 	void draw_enemies(sf::RenderWindow& window);
+	void draw_game_over(sf::RenderWindow& window);
 };
