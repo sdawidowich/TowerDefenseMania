@@ -2,11 +2,16 @@
 
 #include <iostream>
 
-Button::Button(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, std::string label, std::function<void(sf::RenderWindow&, Button*)> on_idle, std::function<void(sf::RenderWindow&, Button*)> on_hover, std::function<void(sf::RenderWindow&, Button*)> on_click)
+Button::Button(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, std::string label, sf::Text text, 
+	std::function<void(sf::RenderWindow&, Button*)> on_idle, 
+	std::function<void(sf::RenderWindow&, Button*)> on_hover, 
+	std::function<void(sf::RenderWindow&, Button*)> on_click)
 	: Sprite(texture, crop, position) {
+
 	this->btn_state = Button_State::BTN_IDLE;
 	this->selected = false;
 	this->label = label;
+	this->text = text;
 	this->on_idle = on_idle;
 	this->on_hover = on_hover;
 	this->on_click = on_click;
@@ -65,4 +70,9 @@ void Button::deselect() {
 
 bool Button::is_selected() {
 	return this->selected;
+}
+
+void Button::draw(sf::RenderWindow& window) {
+	window.draw(this->sprite);
+	window.draw(this->text);
 }

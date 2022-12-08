@@ -1,5 +1,13 @@
 #include "EventHandler.h"
 
+void EventHandler::check_start_screen_button_events(sf::RenderWindow& window, sf::Event& event, StartScreen* start_screen) {
+	std::vector<Button>* buttons = start_screen->get_buttons();
+	for (int i = 0; i < buttons->size(); i++) {
+		sf::Vector2f mouse_pos = sf::Vector2f(sf::Mouse::getPosition(window));
+		(*buttons)[i].update(window, event, mouse_pos);
+	}
+}
+
 void EventHandler::check_button_events(sf::RenderWindow& window, sf::Event& event, GUI* gui) {
 	gui->reset_button_label();
 	std::vector<Button>* buttons = gui->get_buttons();
@@ -163,18 +171,23 @@ void EventHandler::check_tower_click(sf::RenderWindow& window, sf::Event& event,
 
 EventHandler::EventHandler() { }
 
-void EventHandler::check_events(sf::RenderWindow& window, sf::Event& event, GUI* gui, Environment* environment, std::vector<Tower*>& towers, int& gold) {
-	//// Check button events ////
-	this->check_button_events(window, event, gui);
-
-	//// Move tower selection if a tower is selected ////
-	this->check_selection_movement(window, gui);
-
-	//// Check tower placing ////
-	if (gui->get_new_tower()) {
-		this->check_tower_placement(window, event, gui, environment, towers, gold);
+void EventHandler::check_events(sf::RenderWindow& window, sf::Event& event, Game_State& state, StartScreen* start_screen, GUI* gui, Environment* environment, std::vector<Tower*>& towers, int& gold) {
+	if (state == Game_State::START) {
+		this->check_start_screen_button_events(window, event, start_screen);
 	}
+	else if (state == Game_State::PLAYING) {
+		//// Check button events ////
+		this->check_button_events(window, event, gui);
 
-	//// Check tower click ////
-	this->check_tower_click(window, event, gui, towers);
+		//// Move tower selection if a tower is selected ////
+		this->check_selection_movement(window, gui);
+
+		//// Check tower placing ////
+		if (gui->get_new_tower()) {
+			this->check_tower_placement(window, event, gui, environment, towers, gold);
+		}
+
+		//// Check tower click ////
+		this->check_tower_click(window, event, gui, towers);
+	}
 }

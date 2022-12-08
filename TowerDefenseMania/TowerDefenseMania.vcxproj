@@ -151,6 +151,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Tower.cpp" />
     <ClCompile Include="src\TowerTypes.cpp" />
+    <ClCompile Include="src\StartScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Button.h" />
@@ -159,15 +160,18 @@
     <ClInclude Include="headers\Environment.h" />
     <ClInclude Include="headers\EventHandler.h" />
     <ClInclude Include="headers\Game.h" />
+    <ClInclude Include="headers\Game_State.h" />
     <ClInclude Include="headers\GUI.h" />
     <ClInclude Include="headers\Sprite.h" />
     <ClInclude Include="headers\Tile.h" />
     <ClInclude Include="headers\Tower.h" />
     <ClInclude Include="headers\TowerTypes.h" />
+    <ClInclude Include="headers\StartScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\EnemySpriteSheet.png" />
     <Image Include="assets\sprites\EnvironmentSpriteSheet.png" />
+    <Image Include="assets\sprites\GUISpriteSheet.png" />
     <Image Include="assets\sprites\TowerSpriteSheet.png" />
   </ItemGroup>
   <ItemGroup>

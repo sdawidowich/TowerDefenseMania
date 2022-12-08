@@ -51,6 +51,9 @@
     <ClCompile Include="src\EventHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\StartScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Game.h">
@@ -86,6 +89,12 @@
     <ClInclude Include="headers\EventHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="headers\StartScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game_State.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\EnemySpriteSheet.png">
@@ -95,6 +104,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="assets\sprites\TowerSpriteSheet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\GUISpriteSheet.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

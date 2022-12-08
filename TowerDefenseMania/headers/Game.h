@@ -4,17 +4,15 @@
 #include <map>
 #include <random>
 
+#include "Game_State.h"
 #include "Environment.h"
+#include "StartScreen.h"
 #include "GUI.h"
 #include "Tower.h"
 #include "TowerTypes.h"
 #include "Enemy.h"
 #include "EnemyTypes.h"
 #include "EventHandler.h"
-
-enum class Game_State {
-	START, PLAYING, GAME_OVER
-};
 
 class Game {
 private:
@@ -36,6 +34,7 @@ private:
 	EventHandler event_handler;
 	std::vector<Tower*> towers;
 	std::vector<Enemy> enemies;
+	StartScreen* start_screen;
 	Environment* environment;
 	GUI* gui;
 
@@ -48,7 +47,7 @@ private:
 	sf::Time generate_delay;
 	int num_generated_enemies;
 
-	Game_State game_over;
+	Game_State game_state;
 public:
 	Game();
 	~Game();
@@ -56,7 +55,7 @@ public:
 	void set_sprite_indices(sf::Texture* sprite_sheet, std::map<int, sf::IntRect*>& sprites_indices);
 	void delete_sprite_indices(std::map<int, sf::IntRect*>& sprites_indices);
 
-	Game_State get_game_over();
+	Game_State get_state();
 
 	void check_events(sf::RenderWindow& window, sf::Event& event);
 	void check_error_timer();

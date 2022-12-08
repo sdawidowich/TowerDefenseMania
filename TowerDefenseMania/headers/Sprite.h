@@ -16,5 +16,5 @@ public:
 	void set_rotation(float angle);
 	void set_scale(sf::Vector2f scale);
 
-	void draw(sf::RenderWindow& window);
+	virtual void draw(sf::RenderWindow& window);
 };

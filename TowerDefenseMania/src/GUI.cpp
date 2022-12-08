@@ -54,7 +54,7 @@ GUI::GUI(sf::Font* font, sf::Texture* gui_sprite_sheet, std::map<int, sf::IntRec
 		}
 	}
 
-	Button archer_tower_select_button = Button(this->gui_sprite_sheet, (*this->gui_sprites_indices)[0], sf::Vector2f(602, 670), "archerTowerSelector",
+	Button archer_tower_select_button = Button(this->gui_sprite_sheet, (*this->gui_sprites_indices)[0], sf::Vector2f(602, 670), "archerTowerSelector", sf::Text(),
 		[this](sf::RenderWindow& window, Button* btn) {
 			btn->set_crop((*this->gui_sprites_indices)[0]); 
 		},
@@ -66,7 +66,7 @@ GUI::GUI(sf::Font* font, sf::Texture* gui_sprite_sheet, std::map<int, sf::IntRec
 		});
 	this->buttons.push_back(archer_tower_select_button);
 
-	Button wizard_tower_select_button = Button(this->gui_sprite_sheet, (*this->gui_sprites_indices)[0], sf::Vector2f(698, 670), "wizardTowerSelector",
+	Button wizard_tower_select_button = Button(this->gui_sprite_sheet, (*this->gui_sprites_indices)[0], sf::Vector2f(698, 670), "wizardTowerSelector", sf::Text(),
 		[this](sf::RenderWindow& window, Button* btn) {
 			btn->set_crop((*this->gui_sprites_indices)[0]); 
 		},

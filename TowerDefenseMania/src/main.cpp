@@ -24,13 +24,10 @@ int main() {
 				window.close();
 			}
 
-			if (game.get_game_over() == Game_State::START) {
-
-			}
-			else if (game.get_game_over() == Game_State::PLAYING) {
+			if (game.get_state() == Game_State::START || game.get_state() == Game_State::PLAYING) {
 				game.check_events(window, event);
 			}
-			else if (game.get_game_over() == Game_State::GAME_OVER) {
+			else if (game.get_state() == Game_State::GAME_OVER) {
 				if (event.type == sf::Event::KeyPressed) {
 					window.close();
 				}
@@ -38,14 +35,14 @@ int main() {
 		}
 
 		//render
-		if (game.get_game_over() == Game_State::START) {
+		if (game.get_state() == Game_State::START) {
 			window.clear();
 
 			game.draw_start_screen(window);
 
 			window.display();
 		}
-		else if (game.get_game_over() == Game_State::PLAYING) {
+		else if (game.get_state() == Game_State::PLAYING) {
 			window.clear();
 
 			game.check_error_timer();
@@ -63,7 +60,7 @@ int main() {
 
 			window.display();
 		}
-		else if (game.get_game_over() == Game_State::GAME_OVER) {
+		else if (game.get_state() == Game_State::GAME_OVER) {
 			window.clear();
 			
 			game.draw_game_over(window);

@@ -27,6 +27,7 @@ Game::Game() {
 	this->set_sprite_indices(this->environment_sprite_sheet, this->environment_sprites_indices);
 	this->set_sprite_indices(this->gui_sprite_sheet, this->gui_sprites_indices);
 
+	this->start_screen = new StartScreen(this->font, this->gui_sprite_sheet, &this->gui_sprites_indices, &this->game_state);
 	this->environment = new Environment(this->environment_sprite_sheet, &this->environment_sprites_indices);
 	this->gui = new GUI(this->font, this->gui_sprite_sheet, &this->gui_sprites_indices, this->tower_sprite_sheet, &this->tower_sprites_indices);
 
@@ -39,7 +40,7 @@ Game::Game() {
 	this->generate_delay = sf::Time(sf::seconds((float)this->distr(this->gen)));
 	this->num_generated_enemies = 0;
 
-	this->game_over = Game_State::PLAYING;
+	this->game_state = Game_State::START;
 }
 
 Game::~Game() {
@@ -77,12 +78,12 @@ void Game::delete_sprite_indices(std::map<int, sf::IntRect*>& sprites_indices) {
 	sprites_indices.clear();
 }
 
-Game_State Game::get_game_over() {
-	return this->game_over;
+Game_State Game::get_state() {
+	return this->game_state;
 }
 
 void Game::check_events(sf::RenderWindow& window, sf::Event& event) {
-	this->event_handler.check_events(window, event, this->gui, this->environment, this->towers, this->gold);
+	this->event_handler.check_events(window, event, this->game_state, this->start_screen, this->gui, this->environment, this->towers, this->gold);
 }
 
 void Game::check_error_timer() {
@@ -96,7 +97,7 @@ void Game::check_error_timer() {
 void Game::check_game_end() {
 	if (this->health <= 0) {
 		this->health = 0;
-		this->game_over = Game_State::GAME_OVER;
+		this->game_state = Game_State::GAME_OVER;
 	}
 }
 
@@ -167,7 +168,7 @@ void Game::advance_lvl() {
 }
 
 void Game::draw_start_screen(sf::RenderWindow& window) {
-
+	this->start_screen->draw_buttons(window);
 }
 
 void Game::draw_environment(sf::RenderWindow& window) {
