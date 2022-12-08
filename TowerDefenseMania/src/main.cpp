@@ -1,9 +1,17 @@
 #include <iostream>
+#include <string>
 #include <SFML/Graphics.hpp>
 
 #include "Game.h"
+#include "GameStats.h"
 
 int main() {
+	// Get input
+	std::cout << "Enter name: ";
+	
+	std::string name;
+	std::getline(std::cin, name);
+
 	int width = 1280;
 	int height = 720;
 	sf::ContextSettings settings;
@@ -12,7 +20,7 @@ int main() {
 	sf::RenderWindow window(sf::VideoMode(width, height), "Tower Defense Mania", sf::Style::Default, settings);
 	window.setFramerateLimit(60);
 
-	Game game;
+	Game game(name);
 
 	while (window.isOpen()) {
 		sf::Event event;
@@ -68,6 +76,17 @@ int main() {
 			window.display();
 		}
 	}
+
+	game.update_stats();
+
+	GameStats stats = game.get_stats();
+	std::cout << "Name: " << stats.get_name() << std::endl;
+	std::cout << "Time: " << stats.get_time() << std::endl;
+	std::cout << "Level: " << stats.get_level() << std::endl;
+	std::cout << "Kills: " << stats.get_kills() << std::endl;
+	std::cout << "Gold: " << stats.get_gold() << std::endl;
+	std::cout << "Damage: " << stats.get_damage() << std::endl;
+	std::cout << "Towers: " << stats.get_towers() << std::endl;
 
 	return 0;
 }

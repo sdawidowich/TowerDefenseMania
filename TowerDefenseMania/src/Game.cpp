@@ -2,8 +2,12 @@
 
 #include <iostream>
 #include <string>
+#include <cmath>
 
-Game::Game() {
+Game::Game(std::string name) {
+	this->stats = GameStats(name);
+	this->timer.restart();
+
 	this->gen = std::mt19937(this->rd());
 	this->distr = std::uniform_real_distribution<double>(0.2, 1);
 
@@ -36,7 +40,7 @@ Game::Game() {
 	this->max_health = 100;
 	this->health = 100;
 
-	this->timer.restart();
+	this->generate_timer.restart();
 	this->generate_delay = sf::Time(sf::seconds((float)this->distr(this->gen)));
 	this->num_generated_enemies = 0;
 
@@ -54,6 +58,7 @@ Game::~Game() {
 	this->delete_sprite_indices(this->environment_sprites_indices);
 	this->delete_sprite_indices(this->gui_sprites_indices);
 
+	delete this->start_screen;
 	delete this->environment;
 	delete this->gui;
 }
@@ -78,8 +83,17 @@ void Game::delete_sprite_indices(std::map<int, sf::IntRect*>& sprites_indices) {
 	sprites_indices.clear();
 }
 
+GameStats Game::get_stats() {
+	return this->stats;
+}
+
 Game_State Game::get_state() {
 	return this->game_state;
+}
+
+void Game::update_stats() {
+	this->stats.set_time((double)this->timer.getElapsedTime().asSeconds());
+	this->stats.set_towers((int)this->towers.size());
 }
 
 void Game::check_events(sf::RenderWindow& window, sf::Event& event) {
@@ -103,7 +117,7 @@ void Game::check_game_end() {
 
 void Game::towers_attack() {
 	for (int i = 0; i < this->towers.size(); i++) {
-		this->towers[i]->attack(this->enemies, this->gold);
+		this->towers[i]->attack(this->enemies, this->gold, this->stats);
 	}
 	this->check_enemies();
 }
@@ -121,10 +135,10 @@ void Game::generate_enemies() {
 	std::vector<int> path = this->environment->get_path();
 	Tile* start_tile = this->environment->get_tiles()[path[0]];
 
-	int lvl_num_enemies = this->level * 1.5 + 3;
+	int lvl_num_enemies = (int)std::round(this->level * 1.5 + 3);
 	if (this->num_generated_enemies < lvl_num_enemies) {
-		if (this->timer.getElapsedTime() >= this->generate_delay) {
-			timer.restart();
+		if (this->generate_timer.getElapsedTime() >= this->generate_delay) {
+			generate_timer.restart();
 			this->generate_delay = sf::Time(sf::seconds((float)this->distr(this->gen)));
 			this->enemies.push_back(Zombie(this->enemy_sprite_sheet, this->enemy_sprites_indices[0], sf::Vector2f(0.f, start_tile->get_position().y), sf::Vector2i(1, 0)));
 			this->num_generated_enemies++;
@@ -152,7 +166,7 @@ void Game::move_enemies() {
 			tile = this->environment->get_tiles()[path[index]];
 			dis = sf::Vector2f(tile->get_position().x - this->enemies[i].get_position().x, tile->get_position().y - this->enemies[i].get_position().y);
 			double total_dis = std::sqrt(std::pow(dis.x, 2) + std::pow(dis.y, 2));
-			this->enemies[i].change_dir(sf::Vector2i(dis.x / total_dis, dis.y / total_dis));
+			this->enemies[i].change_dir(sf::Vector2i((int)(dis.x / total_dis), (int)(dis.y / total_dis)));
 		}
 		
 		enemies[i].move();
@@ -160,10 +174,11 @@ void Game::move_enemies() {
 }
 
 void Game::advance_lvl() {
-	int lvl_num_enemies = this->level * 1.5 + 3;
+	int lvl_num_enemies = (int)std::round(this->level * 1.5 + 3);
 	if (!this->enemies.size() && this->num_generated_enemies >= lvl_num_enemies) {
 		this->num_generated_enemies = 0;
 		this->level++;
+		this->stats.set_level(this->stats.get_level() + 1);
 	}
 }
 

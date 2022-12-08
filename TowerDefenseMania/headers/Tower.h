@@ -4,9 +4,9 @@
 #include <vector>
 #include <cmath>
 
-#include <Enemy.h>
-
+#include "Enemy.h"
 #include "Sprite.h"
+#include "GameStats.h"
 
 enum class TowerCost {
 	ARCHER_TOWER = 100, WIZARD_TOWER = 250
@@ -27,5 +27,5 @@ public:
 	int get_range();
 	int get_cost();
 
-	virtual void attack(std::vector<Enemy>& enemies, int& gold) = 0;
+	virtual void attack(std::vector<Enemy>& enemies, int& gold, GameStats& stats) = 0;
 };

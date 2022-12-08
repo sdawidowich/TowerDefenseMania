@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameStats.cpp" />
     <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\EnemyTypes.cpp" />
     <ClCompile Include="src\EventHandler.cpp" />
@@ -154,6 +155,7 @@
     <ClCompile Include="src\StartScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="headers\GameStats.h" />
     <ClInclude Include="headers\Button.h" />
     <ClInclude Include="headers\Enemy.h" />
     <ClInclude Include="headers\EnemyTypes.h" />

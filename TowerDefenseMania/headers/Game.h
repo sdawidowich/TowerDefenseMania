@@ -4,6 +4,7 @@
 #include <map>
 #include <random>
 
+#include "GameStats.h"
 #include "Game_State.h"
 #include "Environment.h"
 #include "StartScreen.h"
@@ -16,6 +17,9 @@
 
 class Game {
 private:
+	GameStats stats;
+	sf::Clock timer;
+
 	std::random_device rd;
 	std::mt19937 gen;
 	std::uniform_real_distribution<double> distr;
@@ -43,19 +47,22 @@ private:
 	int max_health;
 	int health;
 
-	sf::Clock timer;
+	sf::Clock generate_timer;
 	sf::Time generate_delay;
 	int num_generated_enemies;
 
 	Game_State game_state;
 public:
-	Game();
+	Game(std::string name);
 	~Game();
 
 	void set_sprite_indices(sf::Texture* sprite_sheet, std::map<int, sf::IntRect*>& sprites_indices);
 	void delete_sprite_indices(std::map<int, sf::IntRect*>& sprites_indices);
 
+	GameStats get_stats();
 	Game_State get_state();
+
+	void update_stats();
 
 	void check_events(sf::RenderWindow& window, sf::Event& event);
 	void check_error_timer();
