@@ -3,6 +3,7 @@
 
 #include "Game_State.h"
 #include "StartScreen.h"
+#include "StatScreen.h"
 #include "GUI.h"
 #include "Environment.h"
 #include "Tile.h"
@@ -13,6 +14,7 @@
 class EventHandler {
 private:
 	void check_start_screen_button_events(sf::RenderWindow& window, sf::Event& event, StartScreen* start_screen);
+	void check_stat_screen_button_events(sf::RenderWindow& window, sf::Event& event, StatScreen* stat_screen);
 
 	void check_button_events(sf::RenderWindow& window, sf::Event& event, GUI* gui);
 	void check_selection_movement(sf::RenderWindow& window, GUI* gui);
@@ -21,5 +23,5 @@ private:
 public:
 	EventHandler();
 	
-	void check_events(sf::RenderWindow& window, sf::Event& event, Game_State& state, StartScreen* start_screen, GUI* gui, Environment* environment, std::vector<Tower*>& towers, int& gold);
+	void check_events(sf::RenderWindow& window, sf::Event& event, Game_State& state, StartScreen* start_screen, StatScreen* stat_screen, GUI* gui, Environment* environment, std::vector<Tower*>& towers, int& gold);
 };

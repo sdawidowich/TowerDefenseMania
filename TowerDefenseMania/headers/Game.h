@@ -8,6 +8,7 @@
 #include "Game_State.h"
 #include "Environment.h"
 #include "StartScreen.h"
+#include "StatScreen.h"
 #include "GUI.h"
 #include "Tower.h"
 #include "TowerTypes.h"
@@ -17,6 +18,7 @@
 
 class Game {
 private:
+	std::vector<GameStats>* stats_list;
 	GameStats stats;
 	sf::Clock timer;
 
@@ -39,6 +41,7 @@ private:
 	std::vector<Tower*> towers;
 	std::vector<Enemy> enemies;
 	StartScreen* start_screen;
+	StatScreen* stat_screen;
 	Environment* environment;
 	GUI* gui;
 
@@ -53,7 +56,7 @@ private:
 
 	Game_State game_state;
 public:
-	Game(std::string name);
+	Game(std::string name, std::vector<GameStats>* stats_list);
 	~Game();
 
 	void set_sprite_indices(sf::Texture* sprite_sheet, std::map<int, sf::IntRect*>& sprites_indices);
@@ -75,6 +78,7 @@ public:
 	void advance_lvl();
 
 	void draw_start_screen(sf::RenderWindow& window);
+	void draw_stat_screen(sf::RenderWindow& window);
 	void draw_environment(sf::RenderWindow& window);
 	void draw_gui(sf::RenderWindow& window);
 	void draw_towers(sf::RenderWindow& window);

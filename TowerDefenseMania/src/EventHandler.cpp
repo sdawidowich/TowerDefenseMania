@@ -8,6 +8,14 @@ void EventHandler::check_start_screen_button_events(sf::RenderWindow& window, sf
 	}
 }
 
+void EventHandler::check_stat_screen_button_events(sf::RenderWindow& window, sf::Event& event, StatScreen* stat_screen) {
+	std::vector<Button>* buttons = stat_screen->get_buttons();
+	for (int i = 0; i < buttons->size(); i++) {
+		sf::Vector2f mouse_pos = sf::Vector2f(sf::Mouse::getPosition(window));
+		(*buttons)[i].update(window, event, mouse_pos);
+	}
+}
+
 void EventHandler::check_button_events(sf::RenderWindow& window, sf::Event& event, GUI* gui) {
 	gui->reset_button_label();
 	std::vector<Button>* buttons = gui->get_buttons();
@@ -171,9 +179,12 @@ void EventHandler::check_tower_click(sf::RenderWindow& window, sf::Event& event,
 
 EventHandler::EventHandler() { }
 
-void EventHandler::check_events(sf::RenderWindow& window, sf::Event& event, Game_State& state, StartScreen* start_screen, GUI* gui, Environment* environment, std::vector<Tower*>& towers, int& gold) {
+void EventHandler::check_events(sf::RenderWindow& window, sf::Event& event, Game_State& state, StartScreen* start_screen, StatScreen* stat_screen, GUI* gui, Environment* environment, std::vector<Tower*>& towers, int& gold) {
 	if (state == Game_State::START) {
 		this->check_start_screen_button_events(window, event, start_screen);
+	}
+	else if (state == Game_State::STATS) {
+		this->check_stat_screen_button_events(window, event, stat_screen);
 	}
 	else if (state == Game_State::PLAYING) {
 		//// Check button events ////

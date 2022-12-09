@@ -1,5 +1,5 @@
 #pragma once
 
 enum class Game_State {
-	START, PLAYING, GAME_OVER
+	START, STATS, PLAYING, GAME_OVER
 };

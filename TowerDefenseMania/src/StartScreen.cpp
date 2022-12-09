@@ -10,7 +10,7 @@ StartScreen::StartScreen(sf::Font* font, sf::Texture* gui_sprite_sheet, std::map
 	play_text.setPosition(sf::Vector2f(640, 190));
 	sf::FloatRect bounds = play_text.getGlobalBounds();
 	play_text.setOrigin(sf::Vector2f(bounds.width / 2, bounds.height / 2));
-	Button play_button = Button(this->gui_sprite_sheet, (*this->gui_sprites_indices)[0], sf::Vector2f(640, 200), "playButton", play_text,
+	Button play_button = Button(this->gui_sprite_sheet, (*this->gui_sprites_indices)[8], sf::Vector2f(640, 200), "playButton", play_text,
 		[this](sf::RenderWindow& window, Button* btn) {
 			btn->set_crop((*this->gui_sprites_indices)[8]);
 		},
@@ -27,7 +27,7 @@ StartScreen::StartScreen(sf::Font* font, sf::Texture* gui_sprite_sheet, std::map
 	view_stats_text.setPosition(sf::Vector2f(640, 320));
 	bounds = view_stats_text.getGlobalBounds();
 	view_stats_text.setOrigin(sf::Vector2f(bounds.width / 2, bounds.height / 2));
-	Button view_stats_button = Button(this->gui_sprite_sheet, (*this->gui_sprites_indices)[0], sf::Vector2f(640, 330), "quitButton", view_stats_text,
+	Button view_stats_button = Button(this->gui_sprite_sheet, (*this->gui_sprites_indices)[8], sf::Vector2f(640, 330), "quitButton", view_stats_text,
 		[this](sf::RenderWindow& window, Button* btn) {
 			btn->set_crop((*this->gui_sprites_indices)[8]);
 		},
@@ -35,7 +35,7 @@ StartScreen::StartScreen(sf::Font* font, sf::Texture* gui_sprite_sheet, std::map
 			btn->set_crop((*this->gui_sprites_indices)[8]);
 		},
 		[this](sf::RenderWindow& window, Button* btn) {
-
+			*(this->state) = Game_State::STATS;
 		});
 	view_stats_button.set_scale(sf::Vector2f(7.f, 7.f));
 	this->buttons.push_back(view_stats_button);
@@ -44,7 +44,7 @@ StartScreen::StartScreen(sf::Font* font, sf::Texture* gui_sprite_sheet, std::map
 	quit_text.setPosition(sf::Vector2f(640, 450));
 	bounds = quit_text.getGlobalBounds();
 	quit_text.setOrigin(sf::Vector2f(bounds.width / 2, bounds.height / 2));
-	Button quit_button = Button(this->gui_sprite_sheet, (*this->gui_sprites_indices)[0], sf::Vector2f(640, 460), "quitButton", quit_text,
+	Button quit_button = Button(this->gui_sprite_sheet, (*this->gui_sprites_indices)[8], sf::Vector2f(640, 460), "quitButton", quit_text,
 		[this](sf::RenderWindow& window, Button* btn) {
 			btn->set_crop((*this->gui_sprites_indices)[8]);
 		},

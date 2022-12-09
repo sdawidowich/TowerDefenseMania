@@ -13,6 +13,10 @@ int main() {
 	std::string name;
 	std::getline(std::cin, name);
 
+	const std::string path = "data/game_stats.csv";
+	StatsFileIO io;
+	std::vector<GameStats> stats_list = io.read_stats_from_file(path);
+
 	int width = 1280;
 	int height = 720;
 	sf::ContextSettings settings;
@@ -21,7 +25,7 @@ int main() {
 	sf::RenderWindow window(sf::VideoMode(width, height), "Tower Defense Mania", sf::Style::Default, settings);
 	window.setFramerateLimit(60);
 
-	Game game(name);
+	Game game(name, &stats_list);
 
 	while (window.isOpen()) {
 		sf::Event event;
@@ -33,7 +37,7 @@ int main() {
 				window.close();
 			}
 
-			if (game.get_state() == Game_State::START || game.get_state() == Game_State::PLAYING) {
+			if (game.get_state() == Game_State::START || game.get_state() == Game_State::STATS || game.get_state() == Game_State::PLAYING) {
 				game.check_events(window, event);
 			}
 			else if (game.get_state() == Game_State::GAME_OVER) {
@@ -44,16 +48,15 @@ int main() {
 		}
 
 		//render
+		window.clear();
+
 		if (game.get_state() == Game_State::START) {
-			window.clear();
-
 			game.draw_start_screen(window);
-
-			window.display();
+		}
+		else if (game.get_state() == Game_State::STATS) {
+			game.draw_stat_screen(window);
 		}
 		else if (game.get_state() == Game_State::PLAYING) {
-			window.clear();
-
 			game.check_error_timer();
 
 			game.towers_attack();
@@ -66,34 +69,19 @@ int main() {
 			game.draw_towers(window);
 			game.draw_enemies(window);
 			game.check_game_end();
-
-			window.display();
 		}
 		else if (game.get_state() == Game_State::GAME_OVER) {
-			window.clear();
-			
 			game.draw_game_over(window);
-			game.update_stats();
-
-			window.display();
 		}
+
+		window.display();
 	}
-
-
-	GameStats stats = game.get_stats();
-	std::cout << "Name: " << stats.get_name() << std::endl;
-	std::cout << "Time: " << stats.get_time() << std::endl;
-	std::cout << "Level: " << stats.get_level() << std::endl;
-	std::cout << "Kills: " << stats.get_kills() << std::endl;
-	std::cout << "Gold: " << stats.get_gold() << std::endl;
-	std::cout << "Damage: " << stats.get_damage() << std::endl;
-	std::cout << "Towers: " << stats.get_towers() << std::endl;
-
-	const std::string path = "data/game_stats.csv";
-	StatsFileIO io;
-	std::vector<GameStats> stats_list = io.read_stats_from_file(path);
-	stats_list.push_back(stats);
-	io.write_stats_to_file(path, stats_list);
+	
+	if (game.get_state() == Game_State::GAME_OVER) {
+		GameStats stats = game.get_stats();
+		stats_list.push_back(stats);
+		io.write_stats_to_file(path, stats_list);
+	}
 
 	return 0;
 }
