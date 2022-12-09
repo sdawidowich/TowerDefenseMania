@@ -14,6 +14,15 @@ GameStats::GameStats(std::string name) : GameStats() {
 	this->name = name;
 }
 
+GameStats::GameStats(std::string name, double time, int level, int kills, int gold, int damage, int towers) : GameStats(name) {
+	this->time = time;
+	this->level = level;
+	this->kills = kills;
+	this->gold = gold;
+	this->damage = damage;
+	this->towers = towers;
+}
+
 std::string GameStats::get_name() {
 	return this->name;
 }

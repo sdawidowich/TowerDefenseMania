@@ -153,6 +153,7 @@
     <ClCompile Include="src\Tower.cpp" />
     <ClCompile Include="src\TowerTypes.cpp" />
     <ClCompile Include="src\StartScreen.cpp" />
+    <ClCompile Include="src\StatsFileIO.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\GameStats.h" />
@@ -169,6 +170,7 @@
     <ClInclude Include="headers\Tower.h" />
     <ClInclude Include="headers\TowerTypes.h" />
     <ClInclude Include="headers\StartScreen.h" />
+    <ClInclude Include="headers\StatsFileIO.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\EnemySpriteSheet.png" />

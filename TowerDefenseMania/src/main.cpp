@@ -4,6 +4,7 @@
 
 #include "Game.h"
 #include "GameStats.h"
+#include "StatsFileIO.h"
 
 int main() {
 	// Get input
@@ -72,12 +73,12 @@ int main() {
 			window.clear();
 			
 			game.draw_game_over(window);
+			game.update_stats();
 
 			window.display();
 		}
 	}
 
-	game.update_stats();
 
 	GameStats stats = game.get_stats();
 	std::cout << "Name: " << stats.get_name() << std::endl;
@@ -87,6 +88,12 @@ int main() {
 	std::cout << "Gold: " << stats.get_gold() << std::endl;
 	std::cout << "Damage: " << stats.get_damage() << std::endl;
 	std::cout << "Towers: " << stats.get_towers() << std::endl;
+
+	const std::string path = "data/game_stats.csv";
+	StatsFileIO io;
+	std::vector<GameStats> stats_list = io.read_stats_from_file(path);
+	stats_list.push_back(stats);
+	io.write_stats_to_file(path, stats_list);
 
 	return 0;
 }

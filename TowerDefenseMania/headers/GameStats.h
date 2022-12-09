@@ -13,6 +13,7 @@ private:
 public:
 	GameStats();
 	GameStats(std::string name);
+	GameStats(std::string name, double time, int level, int kills, int gold, int damage, int towers);
 
 	// Getters
 	std::string get_name();
