@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\HealthBar.cpp" />
     <ClCompile Include="src\GameStats.cpp" />
     <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\EnemyTypes.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="headers\TowerTypes.h" />
     <ClInclude Include="headers\StartScreen.h" />
     <ClInclude Include="headers\StatsFileIO.h" />
+    <ClInclude Include="headers\HealthBar.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\EnemySpriteSheet.png" />
@@ -181,6 +183,9 @@
   <ItemGroup>
     <Font Include="assets\fonts\RetroGaming.ttf" />
     <Font Include="assets\fonts\upheavtt.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\game_stats.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

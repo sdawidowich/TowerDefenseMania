@@ -60,6 +60,9 @@
     <ClCompile Include="src\StatsFileIO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\HealthBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Game.h">
@@ -107,6 +110,9 @@
     <ClInclude Include="headers\StatsFileIO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="headers\HealthBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\EnemySpriteSheet.png">
@@ -125,5 +131,8 @@
   <ItemGroup>
     <Font Include="assets\fonts\RetroGaming.ttf" />
     <Font Include="assets\fonts\upheavtt.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\game_stats.csv" />
   </ItemGroup>
 </Project>

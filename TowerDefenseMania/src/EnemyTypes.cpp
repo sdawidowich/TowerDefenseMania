@@ -1,5 +1,5 @@
 #include "EnemyTypes.h"
 
-Zombie::Zombie(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, sf::Vector2i dir) 
-	: Enemy(texture, crop, position, 4.0, 10, 30, 5, dir) {
+Zombie::Zombie(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position, sf::Texture* gui_textures, sf::IntRect* health_bar_crop, sf::Vector2i dir)
+	: Enemy(texture, crop, position, gui_textures, health_bar_crop, 4.0, 10, 30, 5, dir) {
 }

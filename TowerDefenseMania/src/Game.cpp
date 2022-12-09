@@ -140,7 +140,7 @@ void Game::generate_enemies() {
 		if (this->generate_timer.getElapsedTime() >= this->generate_delay) {
 			generate_timer.restart();
 			this->generate_delay = sf::Time(sf::seconds((float)this->distr(this->gen)));
-			this->enemies.push_back(Zombie(this->enemy_sprite_sheet, this->enemy_sprites_indices[0], sf::Vector2f(0.f, start_tile->get_position().y), sf::Vector2i(1, 0)));
+			this->enemies.push_back(Zombie(this->enemy_sprite_sheet, this->enemy_sprites_indices[0], sf::Vector2f(0.f, start_tile->get_position().y), this->gui_sprite_sheet, this->gui_sprites_indices[13], sf::Vector2i(1, 0)));
 			this->num_generated_enemies++;
 		}
 	}
@@ -170,6 +170,7 @@ void Game::move_enemies() {
 		}
 		
 		enemies[i].move();
+		enemies[i].update_health_bar();
 	}
 }
 
@@ -232,6 +233,17 @@ void Game::draw_game_over(sf::RenderWindow& window) {
 	bounds = quit_text.getGlobalBounds();
 	quit_text.setOrigin(sf::Vector2f(bounds.width / 2, bounds.height / 2));
 
+	Sprite clock_icon(this->gui_sprite_sheet, this->gui_sprites_indices[9], sf::Vector2f(100.f, 100.f));
+	Sprite skull_icon(this->gui_sprite_sheet, this->gui_sprites_indices[10], sf::Vector2f(100.f, 100.f));
+	Sprite gold_icon(this->gui_sprite_sheet, this->gui_sprites_indices[6], sf::Vector2f(100.f, 100.f));
+	Sprite sword_icon(this->gui_sprite_sheet, this->gui_sprites_indices[11], sf::Vector2f(100.f, 100.f));
+	Sprite tower_icon(this->gui_sprite_sheet, this->gui_sprites_indices[12], sf::Vector2f(100.f, 100.f));
+
 	window.draw(game_over_text);
 	window.draw(quit_text);
+	clock_icon.draw(window);
+	skull_icon.draw(window);
+	gold_icon.draw(window);
+	sword_icon.draw(window);
+	tower_icon.draw(window);
 }
