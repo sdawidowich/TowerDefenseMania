@@ -140,7 +140,7 @@ void Game::generate_enemies() {
 	std::vector<int> path = this->environment->get_path();
 	Tile* start_tile = this->environment->get_tiles()[path[0]];
 
-	int lvl_num_enemies = (int)std::round(this->level * 1.5 + 3);
+	int lvl_num_enemies = (int)(std::round(std::pow(this->level, 1.3)) + 3);
 	if (this->num_generated_enemies < lvl_num_enemies) {
 		if (this->generate_timer.getElapsedTime() >= this->generate_delay) {
 			generate_timer.restart();
@@ -180,7 +180,7 @@ void Game::move_enemies() {
 }
 
 void Game::advance_lvl() {
-	int lvl_num_enemies = (int)std::round(this->level * 1.5 + 3);
+	int lvl_num_enemies = (int)(std::round(std::pow(this->level, 1.3)) + 3);
 	if (!this->enemies.size() && this->num_generated_enemies >= lvl_num_enemies) {
 		this->num_generated_enemies = 0;
 		this->level++;

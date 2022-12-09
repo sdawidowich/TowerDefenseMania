@@ -34,7 +34,7 @@ void ArcherTower::attack(std::vector<Enemy>& enemies, int& gold, GameStats& stat
 }
 
 WizardTower::WizardTower(sf::Texture* texture, sf::IntRect* crop, sf::Vector2f position) 
-	: Tower(texture, crop, position, 3, 100, TowerCost::WIZARD_TOWER, sf::Time(sf::seconds(1.5))) {
+	: Tower(texture, crop, position, 2, 100, TowerCost::WIZARD_TOWER, sf::Time(sf::seconds(1.5))) {
 
 }
 
