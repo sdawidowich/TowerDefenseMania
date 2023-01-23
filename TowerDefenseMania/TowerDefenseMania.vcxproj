@@ -145,6 +145,7 @@
     <ClCompile Include="src\EnemyTypes.cpp" />
     <ClCompile Include="src\EventHandler.cpp" />
     <ClCompile Include="src\GUI.cpp" />
+    <ClCompile Include="src\Menu.cpp" />
     <ClCompile Include="src\Sprite.cpp" />
     <ClCompile Include="src\Tile.cpp" />
     <ClCompile Include="src\Enemy.cpp" />
@@ -153,9 +154,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Tower.cpp" />
     <ClCompile Include="src\TowerTypes.cpp" />
-    <ClCompile Include="src\StartScreen.cpp" />
     <ClCompile Include="src\StatsFileIO.cpp" />
-    <ClCompile Include="src\StatScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\GameStats.h" />
@@ -167,14 +166,13 @@
     <ClInclude Include="headers\Game.h" />
     <ClInclude Include="headers\Game_State.h" />
     <ClInclude Include="headers\GUI.h" />
+    <ClInclude Include="headers\Menu.h" />
     <ClInclude Include="headers\Sprite.h" />
     <ClInclude Include="headers\Tile.h" />
     <ClInclude Include="headers\Tower.h" />
     <ClInclude Include="headers\TowerTypes.h" />
-    <ClInclude Include="headers\StartScreen.h" />
     <ClInclude Include="headers\StatsFileIO.h" />
     <ClInclude Include="headers\HealthBar.h" />
-    <ClInclude Include="headers\StatScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\EnemySpriteSheet.png" />

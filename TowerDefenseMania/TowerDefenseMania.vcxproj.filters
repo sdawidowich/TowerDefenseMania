@@ -51,9 +51,6 @@
     <ClCompile Include="src\EventHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\StartScreen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameStats.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -63,7 +60,7 @@
     <ClCompile Include="src\HealthBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\StatScreen.cpp">
+    <ClCompile Include="src\Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,9 +98,6 @@
     <ClInclude Include="headers\EventHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\StartScreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="headers\Game_State.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -116,7 +110,7 @@
     <ClInclude Include="headers\HealthBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\StatScreen.h">
+    <ClInclude Include="headers\Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

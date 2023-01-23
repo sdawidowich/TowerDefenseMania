@@ -7,8 +7,7 @@
 #include "GameStats.h"
 #include "Game_State.h"
 #include "Environment.h"
-#include "StartScreen.h"
-#include "StatScreen.h"
+#include "Menu.h"
 #include "GUI.h"
 #include "Tower.h"
 #include "TowerTypes.h"
@@ -40,10 +39,12 @@ private:
 	EventHandler event_handler;
 	std::vector<Tower*> towers;
 	std::vector<Enemy> enemies;
-	StartScreen* start_screen;
-	StatScreen* stat_screen;
 	Environment* environment;
 	GUI* gui;
+
+	Menu* start_menu;
+	Menu* stat_menu;
+	int stat_menu_page;
 
 	int level;
 	int gold;
@@ -62,6 +63,9 @@ public:
 	void set_sprite_indices(sf::Texture* sprite_sheet, std::map<int, sf::IntRect*>& sprites_indices);
 	void delete_sprite_indices(std::map<int, sf::IntRect*>& sprites_indices);
 
+	void create_start_menu();
+	void create_stat_menu();
+
 	GameStats get_stats();
 	Game_State get_state();
 
@@ -79,6 +83,7 @@ public:
 
 	void draw_start_screen(sf::RenderWindow& window);
 	void draw_stat_screen(sf::RenderWindow& window);
+	void draw_stats_text(sf::RenderWindow& window);
 	void draw_environment(sf::RenderWindow& window);
 	void draw_gui(sf::RenderWindow& window);
 	void draw_towers(sf::RenderWindow& window);
